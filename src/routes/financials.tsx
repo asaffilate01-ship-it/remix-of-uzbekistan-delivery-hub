@@ -139,6 +139,13 @@ function Financials() {
         />
       </section>
 
+      {/* Sensitivity sliders — secondary scenario tool */}
+      <section className="mt-20">
+        <h2 className="text-2xl font-display font-semibold mb-1">Scenario sliders</h2>
+        <p className="text-xs text-muted-foreground mb-5">Quick sensitivity tool — independent of the line items above.</p>
+        <FinancialsModel />
+      </section>
+
       {/* Derived P&L */}
       <section className="mt-16">
         <h2 className="text-2xl font-display font-semibold">Profit & loss · monthly (derived)</h2>
