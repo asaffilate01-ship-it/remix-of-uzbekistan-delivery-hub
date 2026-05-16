@@ -98,14 +98,24 @@ function BusinessPlan() {
 
       {/* Capital table */}
       <section className="mt-16">
-        <h2 className="text-2xl font-display font-semibold">Initial launch capital · 500 riders</h2>
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-2xl font-display font-semibold">Initial launch capital · 500 riders</h2>
+          <button onClick={() => setLaunch(DEFAULT_LAUNCH)} className="text-xs text-muted-foreground hover:text-primary">Reset</button>
+        </div>
+        <p className="text-xs text-muted-foreground mt-1">Click any value to edit.</p>
         <div className="mt-5 glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <tbody>
-              {launch.map(([k, v, bold]) => (
-                <tr key={k} className={`border-b border-border/30 last:border-0 ${bold ? "bg-surface/40 font-semibold" : ""}`}>
-                  <td className="px-5 py-3.5">{k}</td>
-                  <td className="px-5 py-3.5 text-right font-mono">{m(v)}</td>
+              {launch.map((r, i) => (
+                <tr key={r.label} className={`border-b border-border/30 last:border-0 ${r.bold ? "bg-surface/40 font-semibold" : ""}`}>
+                  <td className="px-5 py-3.5">{r.label}</td>
+                  <td className="px-5 py-3.5 text-right">
+                    <EditableMoney
+                      value={r.value}
+                      onChange={(v) => setLaunch(launch.map((row, idx) => (idx === i ? { ...row, value: v } : row)))}
+                      step={r.bold ? 100000 : 25000}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
