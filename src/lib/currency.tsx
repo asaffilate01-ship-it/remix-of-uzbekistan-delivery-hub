@@ -90,8 +90,90 @@ export function Disclaimer({ className = "" }: { className?: string }) {
     >
       <span className="font-mono text-gold">ILLUSTRATIVE DEFAULTS · </span>
       Every figure on this site is an editable assumption, not researched market data.
-      Adjust sliders, toggle USD/UZS and change the FX rate to model your own scenario.
+      Tap any number to edit, drag sliders, toggle USD/UZS, change the FX rate.
       Validate against primary sources before investor commitments.
     </div>
   );
 }
+
+/**
+ * Inline editable money cell. Value is stored in USD (the model's base unit);
+ * the visible display switches between USD and UZS via the currency context.
+ * Click the number to edit, or use the ▲ / ▼ buttons to step.
+ */
+export function EditableMoney({
+  value,
+  onChange,
+  step = 1000,
+  decimals = 0,
+  className = "",
+  align = "right",
+}: {
+  value: number;
+  onChange: (v: number) => void;
+  step?: number;
+  decimals?: number;
+  className?: string;
+  align?: "left" | "right";
+}) {
+  const { currency, fx, m } = useCurrency();
+  const [editing, setEditing] = useState(false);
+  const negative = value < 0;
+  const abs = Math.abs(value);
+
+  // When editing, show the raw number in the active currency (no symbol).
+  const editValue =
+    currency === "USD" ? abs.toFixed(decimals) : Math.round(abs * fx).toString();
+
+  if (editing) {
+    return (
+      <input
+        autoFocus
+        defaultValue={editValue}
+        onBlur={(e) => {
+          const raw = Number(e.target.value.replace(/[, ]/g, "")) || 0;
+          const usd = currency === "USD" ? raw : raw / fx;
+          onChange(negative ? -usd : usd);
+          setEditing(false);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+          if (e.key === "Escape") setEditing(false);
+        }}
+        className={`w-32 bg-surface/80 border border-primary/60 rounded px-2 py-1 font-mono text-${align} text-foreground outline-none ${className}`}
+      />
+    );
+  }
+
+  return (
+    <span className={`inline-flex items-center gap-1 group ${className}`}>
+      <button
+        type="button"
+        aria-label="Decrease"
+        onClick={() => onChange(value - step)}
+        className="opacity-0 group-hover:opacity-100 transition text-muted-foreground hover:text-destructive text-xs px-1 font-mono"
+      >
+        ▼
+      </button>
+      <button
+        type="button"
+        onClick={() => setEditing(true)}
+        className={`font-mono tabular-nums hover:text-primary hover:underline decoration-dotted underline-offset-4 transition ${
+          negative ? "text-destructive/90" : ""
+        }`}
+      >
+        {negative ? "−" : ""}
+        {m(abs, { decimals })}
+      </button>
+      <button
+        type="button"
+        aria-label="Increase"
+        onClick={() => onChange(value + step)}
+        className="opacity-0 group-hover:opacity-100 transition text-muted-foreground hover:text-primary text-xs px-1 font-mono"
+      >
+        ▲
+      </button>
+    </span>
+  );
+}
+
