@@ -19,7 +19,7 @@ export type Inputs = {
 
 // All defaults expressed in USD — illustrative, fully editable.
 const DEFAULT_INPUTS: Inputs = {
-  riders: 3000,
+  riders: 500,
   deliveriesPerDay: 16,
   revenuePerDelivery: 1.4,
   riderPayout: 0.9,

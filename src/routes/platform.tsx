@@ -39,8 +39,8 @@ const merchants = [
 
 const heroStats = [
   { icon: Building2, v: "500+", l: "Target operators" },
-  { icon: Bike, v: "3,000", l: "Bikes planned" },
-  { icon: Users, v: "500", l: "Riders phase 1" },
+  { icon: Users, v: "500", l: "Riders at launch" },
+  { icon: Bike, v: "3,000", l: "Bikes by month 18" },
   { icon: Shield, v: "99.9%", l: "Uptime SLA" },
 ];
 
