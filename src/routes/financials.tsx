@@ -104,10 +104,8 @@ function Financials() {
 
       <Disclaimer className="mb-10" />
 
-      <FinancialsModel />
-
-      {/* Inputs */}
-      <section className="mt-20 grid lg:grid-cols-2 gap-6">
+      {/* Inputs — primary editing surface */}
+      <section className="grid lg:grid-cols-2 gap-6">
         <EditableList
           title="Monthly revenue"
           subtitle="Lines that contribute to total revenue at full scale."
@@ -139,6 +137,13 @@ function Financials() {
           onReset={() => setFunding(DEFAULT_FUNDING)}
           accent="gold"
         />
+      </section>
+
+      {/* Sensitivity sliders — secondary scenario tool */}
+      <section className="mt-20">
+        <h2 className="text-2xl font-display font-semibold mb-1">Scenario sliders</h2>
+        <p className="text-xs text-muted-foreground mb-5">Quick sensitivity tool — independent of the line items above.</p>
+        <FinancialsModel />
       </section>
 
       {/* Derived P&L */}
