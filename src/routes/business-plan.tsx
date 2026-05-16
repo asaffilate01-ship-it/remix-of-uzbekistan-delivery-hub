@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCurrency, Disclaimer } from "@/lib/currency";
+import { useState } from "react";
+import { Disclaimer, EditableMoney } from "@/lib/currency";
 
 export const Route = createFileRoute("/business-plan")({
   head: () => ({ meta: [
@@ -31,19 +32,21 @@ const sections = [
   { h: "Long-term vision", body: "Becomes Uzbekistan's logistics operating system: fleets, riders, merchant tech, payments, financing, marketplace infrastructure, last-mile logistics, delivery SaaS and fintech ecosystem — not just a delivery company." },
 ];
 
+type LaunchRow = { label: string; value: number; bold?: boolean };
+const DEFAULT_LAUNCH: LaunchRow[] = [
+  { label: "Bikes (500 × $1,490)", value: 745000 },
+  { label: "Spare bikes", value: 75000 },
+  { label: "Operations centre (Tashkent)", value: 125000 },
+  { label: "Regional hubs", value: 150000 },
+  { label: "Tech development", value: 320000 },
+  { label: "Initial staff", value: 150000 },
+  { label: "Working capital", value: 380000 },
+  { label: "Total launch capital", value: 1945000, bold: true },
+  { label: "Full 3,000-rider ecosystem", value: 7000000, bold: true },
+];
+
 function BusinessPlan() {
-  const { m } = useCurrency();
-  const launch: ReadonlyArray<readonly [string, number, boolean?]> = [
-    ["Bikes (500 × $1,490)", 745000],
-    ["Spare bikes", 75000],
-    ["Operations centre (Tashkent)", 125000],
-    ["Regional hubs", 150000],
-    ["Tech development", 320000],
-    ["Initial staff", 150000],
-    ["Working capital", 380000],
-    ["Total launch capital", 1945000, true],
-    ["Full 3,000-rider ecosystem", 7000000, true],
-  ];
+  const [launch, setLaunch] = useState<LaunchRow[]>(DEFAULT_LAUNCH);
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <header className="mb-8">
