@@ -88,8 +88,8 @@ export function Disclaimer({ className = "" }: { className?: string }) {
     <div
       className={`rounded-xl border border-gold/30 bg-gold/5 px-4 py-3 text-xs text-muted-foreground ${className}`}
     >
-      <span className="font-mono text-gold">ILLUSTRATIVE DEFAULTS · </span>
-      Every figure on this site is an editable assumption, not researched market data.
+      <span className="font-mono text-gold">RESEARCH-BASED ASSUMPTIONS · </span>
+      Every figure on this site is an editable assumption based on research.
       Tap any number to edit, drag sliders, toggle USD/UZS, change the FX rate.
       Validate against primary sources before investor commitments.
     </div>
