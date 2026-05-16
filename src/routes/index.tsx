@@ -190,9 +190,9 @@ function Home() {
       <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { k: "Capex per bike-rider unit", v: gbp(1185), s: "Bike, registration, insurance, box, gear, GPS, branding" },
-            { k: "Initial launch capital", v: gbp(1500000), s: "500 riders, hubs, tech, working capital" },
-            { k: "Full ecosystem", v: "£5.5–6M", s: "3,000 riders across 25+ cities" },
+            { k: "Capex per bike-rider unit", v: m(1490), s: "Bike, registration, insurance, box, gear, GPS, branding" },
+            { k: "Initial launch capital", v: m(1945000), s: "500 riders, hubs, tech, working capital" },
+            { k: "Full ecosystem", v: m(7000000, { compact: true }), s: "3,000 riders across 25+ cities" },
           ].map((x) => (
             <div key={x.k} className="glass rounded-2xl p-7">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">{x.k}</div>
