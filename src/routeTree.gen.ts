@@ -9,11 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UzbekRouteImport } from './routes/uzbek'
+import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as FinancialsRouteImport } from './routes/financials'
 import { Route as BusinessPlanRouteImport } from './routes/business-plan'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UzbekRoute = UzbekRouteImport.update({
+  id: '/uzbek',
+  path: '/uzbek',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FleetRoute = FleetRouteImport.update({
   id: '/fleet',
   path: '/fleet',
@@ -40,12 +52,16 @@ export interface FileRoutesByFullPath {
   '/business-plan': typeof BusinessPlanRoute
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
+  '/platform': typeof PlatformRoute
+  '/uzbek': typeof UzbekRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/business-plan': typeof BusinessPlanRoute
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
+  '/platform': typeof PlatformRoute
+  '/uzbek': typeof UzbekRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +69,28 @@ export interface FileRoutesById {
   '/business-plan': typeof BusinessPlanRoute
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
+  '/platform': typeof PlatformRoute
+  '/uzbek': typeof UzbekRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/business-plan' | '/financials' | '/fleet'
+  fullPaths:
+    | '/'
+    | '/business-plan'
+    | '/financials'
+    | '/fleet'
+    | '/platform'
+    | '/uzbek'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/business-plan' | '/financials' | '/fleet'
-  id: '__root__' | '/' | '/business-plan' | '/financials' | '/fleet'
+  to: '/' | '/business-plan' | '/financials' | '/fleet' | '/platform' | '/uzbek'
+  id:
+    | '__root__'
+    | '/'
+    | '/business-plan'
+    | '/financials'
+    | '/fleet'
+    | '/platform'
+    | '/uzbek'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +98,26 @@ export interface RootRouteChildren {
   BusinessPlanRoute: typeof BusinessPlanRoute
   FinancialsRoute: typeof FinancialsRoute
   FleetRoute: typeof FleetRoute
+  PlatformRoute: typeof PlatformRoute
+  UzbekRoute: typeof UzbekRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/uzbek': {
+      id: '/uzbek'
+      path: '/uzbek'
+      fullPath: '/uzbek'
+      preLoaderRoute: typeof UzbekRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fleet': {
       id: '/fleet'
       path: '/fleet'
@@ -107,6 +154,8 @@ const rootRouteChildren: RootRouteChildren = {
   BusinessPlanRoute: BusinessPlanRoute,
   FinancialsRoute: FinancialsRoute,
   FleetRoute: FleetRoute,
+  PlatformRoute: PlatformRoute,
+  UzbekRoute: UzbekRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
