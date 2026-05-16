@@ -9,7 +9,7 @@ const nav = [
   { to: "/financials", label: "Financials" },
   { to: "/fleet", label: "Fleet" },
   { to: "/platform", label: "Platform" },
-  { to: "/uzbek", label: "O'zbekcha" },
+  { to: "/platform", label: "Platform" },
 ];
 
 export function SiteHeader() {
