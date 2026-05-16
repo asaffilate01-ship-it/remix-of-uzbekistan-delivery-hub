@@ -9,7 +9,6 @@ const nav = [
   { to: "/financials", label: "Financials" },
   { to: "/fleet", label: "Fleet" },
   { to: "/platform", label: "Platform" },
-  { to: "/platform", label: "Platform" },
 ];
 
 export function SiteHeader() {
