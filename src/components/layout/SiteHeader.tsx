@@ -90,7 +90,7 @@ export function SiteFooter() {
         <div>
           <div className="font-medium mb-3">Targets</div>
           <ul className="space-y-2 text-muted-foreground">
-            <li>3,000 riders</li>
+            <li>500 → 3,000 riders (M0 → M18)</li>
             <li>25+ cities</li>
             <li>~$7M ecosystem</li>
           </ul>

@@ -44,8 +44,8 @@ function Fleet() {
     <div className="mx-auto max-w-7xl px-6 py-16">
       <header className="max-w-3xl mb-8">
         <div className="text-xs uppercase tracking-[0.2em] text-primary">Fleet operations</div>
-        <h1 className="mt-3 text-5xl font-display font-semibold">3,000 riders. Bajaj Boxer fleet. Built for the last mile.</h1>
-        <p className="mt-4 text-muted-foreground">Asset-light per unit, network-effects at scale. Every motorcycle is a margin engine that compounds through leasing, financing and advertising.</p>
+        <h1 className="mt-3 text-5xl font-display font-semibold">500 riders at launch. 3,000 by month 18. Bajaj Boxer fleet.</h1>
+        <p className="mt-4 text-muted-foreground">We start with a focused 500-rider Tashkent + Samarkand deployment, then ramp city-by-city to a 3,000-rider network at scale. Allocation below shows the month-18 target footprint.</p>
       </header>
 
       <Disclaimer className="mb-10" />

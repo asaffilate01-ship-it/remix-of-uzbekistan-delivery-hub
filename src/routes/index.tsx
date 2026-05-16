@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Qatnov — Uzbekistan's Delivery Infrastructure & Merchant OS" },
-      { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. 3,000-rider plan, ~$7M ecosystem." },
+      { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. Launching with 500 riders, scaling to 3,000 by month 18. ~$7M ecosystem." },
     ],
   }),
   component: Home,
@@ -17,10 +17,10 @@ function Home() {
   const { m } = useCurrency();
   const tickerStats: ReadonlyArray<readonly [string, string]> = [
     [m(2300850, { compact: true }), "monthly gross revenue @ scale"],
-    ["3,000", "active riders target"],
+    ["500 → 3,000", "riders · launch to month 18"],
     ["25+", "cities in 24 months"],
     ["16", "deliveries / rider / day"],
-    [`${m(569850, { compact: true })}+`, "modelled monthly net profit"],
+    [`${m(569850, { compact: true })}+`, "modelled monthly net profit @ scale"],
     ["~38M", "population served"],
   ];
   return (
@@ -57,8 +57,8 @@ function Home() {
 
               <div className="mt-12 grid grid-cols-3 gap-6 max-w-xl">
                 {[
-                  ["3,000", "riders"],
-                  [m(2300850, { compact: true }), "gross / mo"],
+                  ["500 → 3,000", "riders (M0 → M18)"],
+                  [m(2300850, { compact: true }), "gross / mo @ scale"],
                   [m(7000000, { compact: true }), "ecosystem"],
                 ].map(([v, l]) => (
                   <div key={l}>
@@ -195,7 +195,7 @@ function Home() {
           {[
             { k: "Capex per bike-rider unit", v: m(1490), s: "Bike, registration, insurance, box, gear, GPS, branding" },
             { k: "Initial launch capital", v: m(1945000), s: "500 riders, hubs, tech, working capital" },
-            { k: "Full ecosystem", v: m(7000000, { compact: true }), s: "3,000 riders across 25+ cities" },
+            { k: "Full ecosystem @ scale", v: m(7000000, { compact: true }), s: "3,000 riders by month 18 across 25+ cities" },
           ].map((x) => (
             <div key={x.k} className="glass rounded-2xl p-7">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">{x.k}</div>
