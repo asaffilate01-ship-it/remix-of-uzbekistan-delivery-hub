@@ -91,12 +91,8 @@ function BusinessPlan() {
         ))}
       </div>
 
-      {/* Capital table */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-display font-semibold">Initial launch capital · 500 riders</h2>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
-          <table className="w-full text-sm">
-            <tbody>
+
+
       {/* Capital table */}
       <section className="mt-16">
         <h2 className="text-2xl font-display font-semibold">Initial launch capital · 500 riders</h2>
