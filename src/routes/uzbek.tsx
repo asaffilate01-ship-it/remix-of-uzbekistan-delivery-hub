@@ -17,31 +17,34 @@ const fazalar = [
   { p: "5-bosqich", t: "Fintech ekotizimi", d: "Haydovchi va mototsikl moliyalashtirish, savdogarlar uchun kredit, hamyon, SoftPOS, sug'urta." },
 ];
 
-const sariflar = [
-  ["Mototsikl (Bajaj Boxer)", "£950"],
-  ["Ro'yxatdan o'tkazish", "£50"],
-  ["Sug'urta (yillik)", "£10"],
-  ["Yetkazib berish qutisi", "£60"],
-  ["Dubulg'a va xavfsizlik vositalari", "£70"],
-  ["GPS tracker", "£20"],
-  ["Brending", "£25"],
-  ["Bitta haydovchi uchun jami", "£1,185"],
+const sariflarUSD: ReadonlyArray<readonly [string, number, boolean?]> = [
+  ["Mototsikl (Bajaj Boxer)", 1200],
+  ["Ro'yxatdan o'tkazish", 60],
+  ["Sug'urta (yillik)", 15],
+  ["Yetkazib berish qutisi", 75],
+  ["Dubulg'a va xavfsizlik vositalari", 85],
+  ["GPS tracker", 25],
+  ["Brending", 30],
+  ["Bitta haydovchi uchun jami", 1490, true],
 ];
 
 function Uzbek() {
+  const { m } = useCurrency();
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
-      <header className="mb-12">
+      <header className="mb-8">
         <div className="text-xs uppercase tracking-[0.2em] text-primary">Strategik reja · O'zbekcha</div>
         <h1 className="mt-3 text-5xl font-display font-semibold">O'zbekistonning <span className="gradient-text">logistika operatsion tizimi.</span></h1>
         <p className="mt-5 text-lg text-muted-foreground">Yetkazib berish parki, haydovchilarni boshqarish ekotizimi, restoran texnologiyasi platformasi, savdogarlar uchun operatsion tizim va logistika SaaS tarmog'i — Uzum va Yango talabidan boshlab.</p>
       </header>
 
+      <Disclaimer className="mb-10" />
+
       <section className="grid md:grid-cols-3 gap-4 mb-12">
         {[
           ["~38M", "aholi soni"],
           ["3,000", "haydovchi rejasi"],
-          ["£5.5M–6M", "umumiy investitsiya"],
+          [m(7000000, { compact: true }), "umumiy investitsiya"],
         ].map(([v, l]) => (
           <div key={l} className="glass rounded-2xl p-6">
             <div className="text-3xl font-display font-semibold gradient-text">{v}</div>
