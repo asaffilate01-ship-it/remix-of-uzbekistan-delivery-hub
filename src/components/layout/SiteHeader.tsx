@@ -37,12 +37,6 @@ export function SiteHeader() {
         </nav>
         <div className="hidden md:flex items-center gap-3">
           <CurrencySwitcher />
-          <Link
-            to="/platform"
-            className="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 transition"
-          >
-            Launch Platform
-          </Link>
         </div>
         <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="Menu">
           {open ? <X /> : <Menu />}
