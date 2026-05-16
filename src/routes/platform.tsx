@@ -9,7 +9,7 @@ import { useCurrency } from "@/lib/currency";
 export const Route = createFileRoute("/platform")({
   head: () => ({ meta: [
     { title: "Fleet Platform — Qatnov" },
-    { name: "description", content: "Live demo of the fleet management platform: rider tracking, SLA monitoring, dispatch and merchant tools." },
+    { name: "description", content: "Investor demo of the fleet management platform: rider tracking, SLA monitoring, dispatch and merchant tools." },
   ]}),
   component: Platform,
 });
