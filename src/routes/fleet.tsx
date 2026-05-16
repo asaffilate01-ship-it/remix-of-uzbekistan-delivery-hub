@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { num } from "@/lib/format";
-import { useCurrency, Disclaimer } from "@/lib/currency";
+import { useCurrency, Disclaimer, EditableMoney } from "@/lib/currency";
 import { Bike, Wrench, Shield, MapPin, Box, Radio } from "lucide-react";
 
 export const Route = createFileRoute("/fleet")({
