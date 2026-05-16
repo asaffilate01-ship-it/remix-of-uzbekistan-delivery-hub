@@ -104,10 +104,8 @@ function Financials() {
 
       <Disclaimer className="mb-10" />
 
-      <FinancialsModel />
-
-      {/* Inputs */}
-      <section className="mt-20 grid lg:grid-cols-2 gap-6">
+      {/* Inputs — primary editing surface */}
+      <section className="grid lg:grid-cols-2 gap-6">
         <EditableList
           title="Monthly revenue"
           subtitle="Lines that contribute to total revenue at full scale."
