@@ -1,100 +1,104 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import { FinancialsModel } from "@/components/financials/FinancialsModel";
 import { useCurrency, Disclaimer, EditableMoney } from "@/lib/currency";
 
 export const Route = createFileRoute("/financials")({
   head: () => ({ meta: [
     { title: "Financial Model — Qatnov" },
-    { name: "description", content: "Interactive P&L, balance sheet, cash flow and sliders for the Qatnov 3,000-rider plan. Every figure editable." },
+    { name: "description", content: "Editable revenue, expenses and initial investment that drive a live P&L, balance sheet and 12-month cash flow forecast." },
   ]}),
   component: Financials,
 });
 
-type Row = { label: string; value: number | null; note: string; bold?: boolean; header?: boolean };
+type Line = { id: string; label: string; amount: number };
+type CapexLine = Line & { life: number }; // depreciation life in months
 
-const DEFAULT_PNL: Row[] = [
-  { label: "Gross delivery revenue", value: 2016000, note: "3,000 riders × 16 drops × 30d × $1.40" },
-  { label: "Bike lease revenue", value: 194850, note: "$15/wk × 4.33 wks × 3,000 riders" },
-  { label: "Merchant SaaS subscriptions", value: 90000, note: "Phase 2 ramp · ~1,500 merchants × $60" },
-  { label: "Total revenue", value: 2300850, note: "", bold: true },
-  { label: "Rider payouts", value: -1296000, note: "16 × 30 × $0.90 × 3,000" },
-  { label: "Maintenance & fuel support", value: -120000, note: "$40 / rider / mo" },
-  { label: "Operations staff", value: -100000, note: "HQ + regional hubs" },
-  { label: "Offices & hubs", value: -40000, note: "" },
-  { label: "Tech & support", value: -35000, note: "" },
-  { label: "Insurance & admin", value: -25000, note: "" },
-  { label: "Recruitment & marketing", value: -25000, note: "" },
-  { label: "Bike depreciation", value: -90000, note: "Straight-line over ~24 months" },
-  { label: "Total operating cost", value: -1731000, note: "", bold: true },
-  { label: "Net profit (monthly)", value: 569850, note: "24.8% margin", bold: true },
-  { label: "Annualised net profit", value: 6838200, note: "Run-rate", bold: true },
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+const DEFAULT_REVENUE: Line[] = [
+  { id: uid(), label: "Gross delivery revenue", amount: 2016000 },
+  { id: uid(), label: "Bike lease revenue", amount: 194850 },
+  { id: uid(), label: "Merchant SaaS subscriptions", amount: 90000 },
 ];
 
-const DEFAULT_BALANCE: Row[] = [
-  { label: "ASSETS", value: null, note: "", header: true },
-  { label: "Motorcycles (3,000 × $1,200)", value: 3600000, note: "Owned fleet" },
-  { label: "Spare bikes & parts", value: 300000, note: "~8% spare ratio" },
-  { label: "Tech platform", value: 750000, note: "Capitalised dev" },
-  { label: "Office & hub fit-out", value: 400000, note: "8 regional hubs" },
-  { label: "Working capital / cash", value: 1000000, note: "" },
-  { label: "Receivables (Uzum / Yango)", value: 700000, note: "~30 day terms" },
-  { label: "Total assets", value: 6750000, note: "", bold: true },
-  { label: "LIABILITIES & EQUITY", value: null, note: "", header: true },
-  { label: "Bike financing facility", value: 1900000, note: "" },
-  { label: "Trade payables", value: 250000, note: "" },
-  { label: "Deferred merchant revenue", value: 100000, note: "" },
-  { label: "Equity & retained earnings", value: 4500000, note: "" },
-  { label: "Total liabilities & equity", value: 6750000, note: "", bold: true },
+const DEFAULT_EXPENSES: Line[] = [
+  { id: uid(), label: "Rider payouts", amount: 1296000 },
+  { id: uid(), label: "Maintenance & fuel support", amount: 120000 },
+  { id: uid(), label: "Operations staff", amount: 100000 },
+  { id: uid(), label: "Offices & hubs", amount: 40000 },
+  { id: uid(), label: "Tech & support", amount: 35000 },
+  { id: uid(), label: "Insurance & admin", amount: 25000 },
+  { id: uid(), label: "Recruitment & marketing", amount: 25000 },
 ];
 
-type CashRow = { month: string; inflow: number; outflow: number };
-const DEFAULT_CASH: CashRow[] = [
-  { month: "M1", inflow: 230000, outflow: 610000 },
-  { month: "M2", inflow: 410000, outflow: 685000 },
-  { month: "M3", inflow: 650000, outflow: 840000 },
-  { month: "M4", inflow: 990000, outflow: 1040000 },
-  { month: "M5", inflow: 1240000, outflow: 1190000 },
-  { month: "M6", inflow: 1500000, outflow: 1335000 },
-  { month: "M7", inflow: 1720000, outflow: 1450000 },
-  { month: "M8", inflow: 1890000, outflow: 1545000 },
-  { month: "M9", inflow: 2060000, outflow: 1625000 },
-  { month: "M10", inflow: 2170000, outflow: 1680000 },
-  { month: "M11", inflow: 2240000, outflow: 1710000 },
-  { month: "M12", inflow: 2300850, outflow: 1731000 },
+const DEFAULT_CAPEX: CapexLine[] = [
+  { id: uid(), label: "Motorcycles (3,000 × $1,200)", amount: 3600000, life: 24 },
+  { id: uid(), label: "Spare bikes & parts", amount: 300000, life: 36 },
+  { id: uid(), label: "Tech platform build", amount: 750000, life: 36 },
+  { id: uid(), label: "Office & hub fit-out", amount: 400000, life: 60 },
 ];
+
+const DEFAULT_FUNDING: Line[] = [
+  { id: uid(), label: "Founder equity", amount: 1500000 },
+  { id: uid(), label: "Seed round", amount: 3000000 },
+  { id: uid(), label: "Bike financing facility", amount: 1900000 },
+];
+
+const RAMP = [0.15, 0.25, 0.4, 0.55, 0.7, 0.82, 0.9, 0.95, 1, 1, 1, 1];
 
 function Financials() {
   const { m } = useCurrency();
-  const [pnl, setPnl] = useState<Row[]>(DEFAULT_PNL);
-  const [balance, setBalance] = useState<Row[]>(DEFAULT_BALANCE);
-  const [cash, setCash] = useState<CashRow[]>(DEFAULT_CASH);
+  const [revenue, setRevenue] = useState<Line[]>(DEFAULT_REVENUE);
+  const [expenses, setExpenses] = useState<Line[]>(DEFAULT_EXPENSES);
+  const [capex, setCapex] = useState<CapexLine[]>(DEFAULT_CAPEX);
+  const [funding, setFunding] = useState<Line[]>(DEFAULT_FUNDING);
 
-  const updateRow = (
-    rows: Row[],
-    setRows: (r: Row[]) => void,
-    idx: number,
-    v: number,
-  ) => setRows(rows.map((r, i) => (i === idx ? { ...r, value: v } : r)));
+  const derived = useMemo(() => {
+    const totalRevenue = revenue.reduce((s, r) => s + r.amount, 0);
+    const totalOpex = expenses.reduce((s, r) => s + r.amount, 0);
+    const totalCapex = capex.reduce((s, r) => s + r.amount, 0);
+    const totalFunding = funding.reduce((s, r) => s + r.amount, 0);
+    const monthlyDepreciation = capex.reduce(
+      (s, r) => s + (r.life > 0 ? r.amount / r.life : 0),
+      0,
+    );
+    const ebitda = totalRevenue - totalOpex;
+    const netProfit = ebitda - monthlyDepreciation;
+    const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
 
-  const updateCash = (idx: number, key: "inflow" | "outflow", v: number) =>
-    setCash(cash.map((r, i) => (i === idx ? { ...r, [key]: v } : r)));
+    // 12-month cash flow (M0 = investment & capex; M1-M12 = ramp ops)
+    let cum = 0;
+    const months: { month: string; inflow: number; outflow: number; net: number; cumulative: number }[] = [];
+    // Month 0
+    cum = totalFunding - totalCapex;
+    months.push({ month: "M0", inflow: totalFunding, outflow: totalCapex, net: totalFunding - totalCapex, cumulative: cum });
+    for (let i = 0; i < 12; i++) {
+      const r = totalRevenue * RAMP[i];
+      const o = totalOpex * (0.45 + 0.55 * RAMP[i]); // fixed-ish + variable
+      const net = r - o;
+      cum += net;
+      months.push({ month: `M${i + 1}`, inflow: r, outflow: o, net, cumulative: cum });
+    }
+    const endCash = cum;
+    const retained = months.slice(1).reduce((s, x) => s + (x.inflow - x.outflow) - monthlyDepreciation, 0);
+    const netCapex = Math.max(0, totalCapex - monthlyDepreciation * 12);
 
-  // Running cumulative cash position.
-  let cumulative = 0;
-  const cashWithNet = cash.map((r) => {
-    const net = r.inflow - r.outflow;
-    cumulative += net;
-    return { ...r, net, cumulative };
-  });
+    return {
+      totalRevenue, totalOpex, totalCapex, totalFunding,
+      monthlyDepreciation, ebitda, netProfit, margin,
+      months, endCash, retained, netCapex,
+    };
+  }, [revenue, expenses, capex, funding]);
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
       <header className="mb-8 max-w-3xl">
         <div className="text-xs uppercase tracking-[0.2em] text-primary">Financial model</div>
-        <h1 className="mt-3 text-5xl font-display font-semibold">P&L, balance sheet & cash flow.</h1>
+        <h1 className="mt-3 text-5xl font-display font-semibold">Editable inputs. Live statements.</h1>
         <p className="mt-4 text-muted-foreground">
-          Pull the sliders below — or click <span className="text-primary font-mono">any number</span> in the tables to edit it directly. Hover a cell to step it up or down.
+          Edit revenue, expenses and initial investment below — the P&L, balance sheet and 12-month cash flow forecast recalculate instantly.
         </p>
       </header>
 
@@ -102,72 +106,133 @@ function Financials() {
 
       <FinancialsModel />
 
-      {/* P&L */}
-      <section className="mt-20">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-2xl font-display font-semibold">Profit & loss · monthly</h2>
-          <button onClick={() => setPnl(DEFAULT_PNL)} className="text-xs text-muted-foreground hover:text-primary">Reset</button>
-        </div>
-        <p className="text-xs text-muted-foreground mt-1">Click any value to type a new one. Hover for ▲ / ▼ steppers.</p>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
-          <table className="w-full text-sm">
-            <tbody>
-              {pnl.map((r, i) => (
-                <tr key={i} className={`border-b border-border/30 last:border-0 ${r.bold ? "bg-surface/40 font-semibold" : ""}`}>
-                  <td className="px-5 py-3.5">{r.label}</td>
-                  <td className="px-5 py-3.5 text-muted-foreground text-xs">{r.note}</td>
-                  <td className="px-5 py-3.5 text-right">
-                    {r.value !== null && (
-                      <EditableMoney
-                        value={r.value}
-                        onChange={(v) => updateRow(pnl, setPnl, i, v)}
-                        step={r.bold ? 50000 : 10000}
-                      />
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* Inputs */}
+      <section className="mt-20 grid lg:grid-cols-2 gap-6">
+        <EditableList
+          title="Monthly revenue"
+          subtitle="Lines that contribute to total revenue at full scale."
+          lines={revenue}
+          setLines={setRevenue}
+          onReset={() => setRevenue(DEFAULT_REVENUE)}
+          accent="primary"
+        />
+        <EditableList
+          title="Monthly expenses"
+          subtitle="Operating costs at full scale. Depreciation is calculated separately from capex."
+          lines={expenses}
+          setLines={setExpenses}
+          onReset={() => setExpenses(DEFAULT_EXPENSES)}
+          accent="destructive"
+        />
+        <EditableCapexList
+          title="Initial investment · capex"
+          subtitle="One-off spend at M0. Each line depreciates straight-line over its useful life."
+          lines={capex}
+          setLines={setCapex}
+          onReset={() => setCapex(DEFAULT_CAPEX)}
+        />
+        <EditableList
+          title="Funding sources"
+          subtitle="Cash brought in at M0 — equity, debt and grants."
+          lines={funding}
+          setLines={setFunding}
+          onReset={() => setFunding(DEFAULT_FUNDING)}
+          accent="gold"
+        />
       </section>
 
-      {/* Balance sheet */}
+      {/* Derived P&L */}
       <section className="mt-16">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-2xl font-display font-semibold">Balance sheet · at scale</h2>
-          <button onClick={() => setBalance(DEFAULT_BALANCE)} className="text-xs text-muted-foreground hover:text-primary">Reset</button>
-        </div>
+        <h2 className="text-2xl font-display font-semibold">Profit & loss · monthly (derived)</h2>
+        <p className="text-xs text-muted-foreground mt-1">Calculated from your revenue and expense lines above.</p>
         <div className="mt-5 glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <tbody>
-              {balance.map((r, i) => (
-                <tr key={i} className={`border-b border-border/30 last:border-0 ${r.header ? "bg-surface/40 font-semibold uppercase text-xs tracking-wider" : ""} ${r.bold ? "bg-surface/40 font-semibold" : ""}`}>
-                  <td className="px-5 py-3.5">{r.label}</td>
-                  <td className="px-5 py-3.5 text-muted-foreground text-xs">{r.note}</td>
-                  <td className="px-5 py-3.5 text-right">
-                    {r.value !== null && (
-                      <EditableMoney
-                        value={r.value}
-                        onChange={(v) => updateRow(balance, setBalance, i, v)}
-                        step={r.bold ? 100000 : 25000}
-                      />
-                    )}
-                  </td>
+              {revenue.map((r) => (
+                <tr key={r.id} className="border-b border-border/30">
+                  <td className="px-5 py-3">{r.label}</td>
+                  <td className="px-5 py-3 text-right font-mono tabular-nums">{m(r.amount)}</td>
                 </tr>
               ))}
+              <tr className="border-b border-border/30 bg-surface/40 font-semibold">
+                <td className="px-5 py-3.5">Total revenue</td>
+                <td className="px-5 py-3.5 text-right font-mono tabular-nums">{m(derived.totalRevenue)}</td>
+              </tr>
+              {expenses.map((r) => (
+                <tr key={r.id} className="border-b border-border/30">
+                  <td className="px-5 py-3">{r.label}</td>
+                  <td className="px-5 py-3 text-right font-mono tabular-nums text-destructive/90">−{m(r.amount)}</td>
+                </tr>
+              ))}
+              <tr className="border-b border-border/30 bg-surface/40 font-semibold">
+                <td className="px-5 py-3.5">Total operating cost</td>
+                <td className="px-5 py-3.5 text-right font-mono tabular-nums text-destructive/90">−{m(derived.totalOpex)}</td>
+              </tr>
+              <tr className="border-b border-border/30">
+                <td className="px-5 py-3">EBITDA</td>
+                <td className="px-5 py-3 text-right font-mono tabular-nums">{m(derived.ebitda)}</td>
+              </tr>
+              <tr className="border-b border-border/30">
+                <td className="px-5 py-3">Depreciation</td>
+                <td className="px-5 py-3 text-right font-mono tabular-nums text-destructive/90">−{m(derived.monthlyDepreciation)}</td>
+              </tr>
+              <tr className="bg-surface/40 font-semibold">
+                <td className="px-5 py-3.5">Net profit / month <span className="text-xs text-muted-foreground font-normal ml-2">({derived.margin.toFixed(1)}% margin)</span></td>
+                <td className="px-5 py-3.5 text-right font-mono tabular-nums text-primary">{m(derived.netProfit)}</td>
+              </tr>
+              <tr className="bg-surface/60 font-semibold">
+                <td className="px-5 py-3.5">Annualised net profit</td>
+                <td className="px-5 py-3.5 text-right font-mono tabular-nums text-primary">{m(derived.netProfit * 12)}</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      {/* Cash flow */}
-      <section className="mt-16 mb-8">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-2xl font-display font-semibold">12-month cash flow forecast</h2>
-          <button onClick={() => setCash(DEFAULT_CASH)} className="text-xs text-muted-foreground hover:text-primary">Reset</button>
+      {/* Derived Balance Sheet */}
+      <section className="mt-16">
+        <h2 className="text-2xl font-display font-semibold">Balance sheet · end of year 1 (derived)</h2>
+        <p className="text-xs text-muted-foreground mt-1">Capex less depreciation plus closing cash position vs funding plus retained earnings.</p>
+        <div className="mt-5 glass rounded-2xl overflow-hidden">
+          <table className="w-full text-sm">
+            <tbody>
+              <tr className="bg-surface/40 uppercase text-xs tracking-wider font-semibold"><td className="px-5 py-3" colSpan={2}>Assets</td></tr>
+              <tr className="border-b border-border/30">
+                <td className="px-5 py-3">Cash on hand (close of M12)</td>
+                <td className={`px-5 py-3 text-right font-mono tabular-nums ${derived.endCash < 0 ? "text-destructive/90" : ""}`}>{derived.endCash < 0 ? "−" : ""}{m(Math.abs(derived.endCash))}</td>
+              </tr>
+              <tr className="border-b border-border/30">
+                <td className="px-5 py-3">Fixed assets (capex less depreciation)</td>
+                <td className="px-5 py-3 text-right font-mono tabular-nums">{m(derived.netCapex)}</td>
+              </tr>
+              <tr className="bg-surface/40 font-semibold border-b border-border/30">
+                <td className="px-5 py-3.5">Total assets</td>
+                <td className="px-5 py-3.5 text-right font-mono tabular-nums">{m(derived.endCash + derived.netCapex)}</td>
+              </tr>
+              <tr className="bg-surface/40 uppercase text-xs tracking-wider font-semibold"><td className="px-5 py-3" colSpan={2}>Liabilities & equity</td></tr>
+              {funding.map((f) => (
+                <tr key={f.id} className="border-b border-border/30">
+                  <td className="px-5 py-3">{f.label}</td>
+                  <td className="px-5 py-3 text-right font-mono tabular-nums">{m(f.amount)}</td>
+                </tr>
+              ))}
+              <tr className="border-b border-border/30">
+                <td className="px-5 py-3">Retained earnings (yr 1)</td>
+                <td className={`px-5 py-3 text-right font-mono tabular-nums ${derived.retained < 0 ? "text-destructive/90" : ""}`}>{derived.retained < 0 ? "−" : ""}{m(Math.abs(derived.retained))}</td>
+              </tr>
+              <tr className="bg-surface/40 font-semibold">
+                <td className="px-5 py-3.5">Total liabilities & equity</td>
+                <td className="px-5 py-3.5 text-right font-mono tabular-nums">{m(derived.totalFunding + derived.retained)}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <p className="text-xs text-muted-foreground mt-1">Inflow and outflow are editable. Net and cumulative recalculate live.</p>
+      </section>
+
+      {/* Derived Cash Flow */}
+      <section className="mt-16 mb-8">
+        <h2 className="text-2xl font-display font-semibold">12-month cash flow forecast (derived)</h2>
+        <p className="text-xs text-muted-foreground mt-1">M0 = funding in, capex out. M1–M12 = revenue and expenses ramped to full scale.</p>
         <div className="mt-5 glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
@@ -176,32 +241,143 @@ function Financials() {
                 <th className="px-5 py-3 text-right font-medium">Inflow</th>
                 <th className="px-5 py-3 text-right font-medium">Outflow</th>
                 <th className="px-5 py-3 text-right font-medium">Net</th>
-                <th className="px-5 py-3 text-right font-medium">Cumulative</th>
+                <th className="px-5 py-3 text-right font-medium">Cumulative cash</th>
               </tr>
             </thead>
             <tbody>
-              {cashWithNet.map((r, i) => (
+              {derived.months.map((r) => (
                 <tr key={r.month} className="border-b border-border/30 last:border-0">
-                  <td className="px-5 py-3.5 font-mono text-primary">{r.month}</td>
-                  <td className="px-5 py-3.5 text-right">
-                    <EditableMoney value={r.inflow} onChange={(v) => updateCash(i, "inflow", v)} step={25000} />
-                  </td>
-                  <td className="px-5 py-3.5 text-right">
-                    <EditableMoney value={r.outflow} onChange={(v) => updateCash(i, "outflow", v)} step={25000} />
-                  </td>
-                  <td className={`px-5 py-3.5 text-right font-mono tabular-nums ${r.net < 0 ? "text-destructive/90" : ""}`}>
-                    {(r.net < 0 ? "−" : "") + m(Math.abs(r.net))}
-                  </td>
-                  <td className={`px-5 py-3.5 text-right font-mono tabular-nums font-semibold ${r.cumulative < 0 ? "text-destructive/90" : "text-primary"}`}>
-                    {(r.cumulative < 0 ? "−" : "") + m(Math.abs(r.cumulative))}
-                  </td>
+                  <td className="px-5 py-3 font-mono text-primary">{r.month}</td>
+                  <td className="px-5 py-3 text-right font-mono tabular-nums">{m(r.inflow)}</td>
+                  <td className="px-5 py-3 text-right font-mono tabular-nums text-destructive/90">−{m(r.outflow)}</td>
+                  <td className={`px-5 py-3 text-right font-mono tabular-nums ${r.net < 0 ? "text-destructive/90" : ""}`}>{r.net < 0 ? "−" : ""}{m(Math.abs(r.net))}</td>
+                  <td className={`px-5 py-3 text-right font-mono tabular-nums font-semibold ${r.cumulative < 0 ? "text-destructive/90" : "text-primary"}`}>{r.cumulative < 0 ? "−" : ""}{m(Math.abs(r.cumulative))}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs text-muted-foreground">Cumulative position updates instantly as you edit each month.</p>
       </section>
+    </div>
+  );
+}
+
+function move<T>(arr: T[], from: number, to: number): T[] {
+  if (to < 0 || to >= arr.length) return arr;
+  const copy = [...arr];
+  const [item] = copy.splice(from, 1);
+  copy.splice(to, 0, item);
+  return copy;
+}
+
+function EditableList({
+  title, subtitle, lines, setLines, onReset, accent,
+}: {
+  title: string; subtitle: string; lines: Line[]; setLines: (l: Line[]) => void;
+  onReset: () => void; accent?: "primary" | "destructive" | "gold";
+}) {
+  const total = lines.reduce((s, l) => s + l.amount, 0);
+  const { m } = useCurrency();
+  const totalColor =
+    accent === "destructive" ? "text-destructive/90" :
+    accent === "gold" ? "text-gold" : "text-primary";
+
+  return (
+    <div className="glass rounded-2xl p-6">
+      <div className="flex items-start justify-between mb-1">
+        <h3 className="font-display text-lg font-semibold">{title}</h3>
+        <button onClick={onReset} className="text-xs text-muted-foreground hover:text-primary">Reset</button>
+      </div>
+      <p className="text-xs text-muted-foreground mb-4">{subtitle}</p>
+      <div className="space-y-1.5">
+        {lines.map((l, i) => (
+          <div key={l.id} className="grid grid-cols-[1fr_auto_auto] items-center gap-2 group">
+            <input
+              value={l.label}
+              onChange={(e) => setLines(lines.map((x, j) => j === i ? { ...x, label: e.target.value } : x))}
+              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1"
+            />
+            <EditableMoney
+              value={l.amount}
+              onChange={(v) => setLines(lines.map((x, j) => j === i ? { ...x, amount: v } : x))}
+              step={5000}
+            />
+            <div className="flex items-center opacity-0 group-hover:opacity-100 transition">
+              <button onClick={() => setLines(move(lines, i, i - 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowUp className="h-3 w-3" /></button>
+              <button onClick={() => setLines(move(lines, i, i + 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowDown className="h-3 w-3" /></button>
+              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1 text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3" /></button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button
+        onClick={() => setLines([...lines, { id: uid(), label: "New line", amount: 10000 }])}
+        className="mt-4 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary"
+      >
+        <Plus className="h-3.5 w-3.5" /> Add line
+      </button>
+      <div className="mt-4 pt-3 border-t border-border/40 flex items-center justify-between text-sm">
+        <span className="text-muted-foreground">Total</span>
+        <span className={`font-mono font-semibold tabular-nums ${totalColor}`}>{m(total)}</span>
+      </div>
+    </div>
+  );
+}
+
+function EditableCapexList({
+  title, subtitle, lines, setLines, onReset,
+}: {
+  title: string; subtitle: string; lines: CapexLine[]; setLines: (l: CapexLine[]) => void; onReset: () => void;
+}) {
+  const total = lines.reduce((s, l) => s + l.amount, 0);
+  const monthlyDep = lines.reduce((s, l) => s + (l.life > 0 ? l.amount / l.life : 0), 0);
+  const { m } = useCurrency();
+
+  return (
+    <div className="glass rounded-2xl p-6">
+      <div className="flex items-start justify-between mb-1">
+        <h3 className="font-display text-lg font-semibold">{title}</h3>
+        <button onClick={onReset} className="text-xs text-muted-foreground hover:text-primary">Reset</button>
+      </div>
+      <p className="text-xs text-muted-foreground mb-4">{subtitle}</p>
+      <div className="space-y-1.5">
+        {lines.map((l, i) => (
+          <div key={l.id} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 group">
+            <input
+              value={l.label}
+              onChange={(e) => setLines(lines.map((x, j) => j === i ? { ...x, label: e.target.value } : x))}
+              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1"
+            />
+            <EditableMoney
+              value={l.amount}
+              onChange={(v) => setLines(lines.map((x, j) => j === i ? { ...x, amount: v } : x))}
+              step={25000}
+            />
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <input
+                type="number"
+                value={l.life}
+                onChange={(e) => setLines(lines.map((x, j) => j === i ? { ...x, life: Number(e.target.value) || 0 } : x))}
+                className="w-14 bg-surface/60 border border-border/40 rounded px-1.5 py-1 text-right font-mono text-xs"
+              />
+              <span>mo</span>
+            </div>
+            <div className="flex items-center opacity-0 group-hover:opacity-100 transition">
+              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1 text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3" /></button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button
+        onClick={() => setLines([...lines, { id: uid(), label: "New capex line", amount: 100000, life: 36 }])}
+        className="mt-4 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary"
+      >
+        <Plus className="h-3.5 w-3.5" /> Add line
+      </button>
+      <div className="mt-4 pt-3 border-t border-border/40 space-y-1 text-sm">
+        <div className="flex items-center justify-between"><span className="text-muted-foreground">Total capex</span><span className="font-mono font-semibold tabular-nums text-primary">{m(total)}</span></div>
+        <div className="flex items-center justify-between"><span className="text-muted-foreground">Monthly depreciation</span><span className="font-mono tabular-nums text-destructive/90">−{m(monthlyDep)}</span></div>
+      </div>
     </div>
   );
 }
