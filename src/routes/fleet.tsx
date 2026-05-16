@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { num } from "@/lib/format";
-import { useCurrency, Disclaimer } from "@/lib/currency";
+import { useCurrency, Disclaimer, EditableMoney } from "@/lib/currency";
 import { Bike, Wrench, Shield, MapPin, Box, Radio } from "lucide-react";
 
 export const Route = createFileRoute("/fleet")({
@@ -21,8 +22,8 @@ const cities = [
   { city: "Other cities", riders: 150, drops: 2400, hub: "Partner hubs" },
 ];
 
-// USD defaults (illustrative — overridden by sliders elsewhere).
-const bikeSetup = [
+// USD defaults (illustrative — fully editable below).
+const DEFAULT_BIKE = [
   { item: "Motorcycle (Bajaj Boxer)", cost: 1200, icon: Bike },
   { item: "Registration", cost: 60, icon: Shield },
   { item: "Insurance (annual)", cost: 15, icon: Shield },
@@ -32,12 +33,13 @@ const bikeSetup = [
   { item: "Branding & livery", cost: 30, icon: Wrench },
 ];
 
-const totalBike = bikeSetup.reduce((s, b) => s + b.cost, 0);
 const totalRiders = cities.reduce((s, c) => s + c.riders, 0);
 const totalDrops = cities.reduce((s, c) => s + c.drops, 0);
 
 function Fleet() {
   const { m } = useCurrency();
+  const [bikeSetup, setBikeSetup] = useState(DEFAULT_BIKE);
+  const totalBike = bikeSetup.reduce((s, b) => s + b.cost, 0);
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
       <header className="max-w-3xl mb-8">
@@ -102,7 +104,7 @@ function Fleet() {
           <h3 className="text-xl font-display font-semibold">Per-rider bike setup</h3>
           <p className="mt-1 text-sm text-muted-foreground">Bajaj Boxer chosen for durability, fuel efficiency and ubiquitous parts. Costs are indicative landed prices.</p>
           <div className="mt-6 space-y-3">
-            {bikeSetup.map(({ item, cost, icon: Icon }) => (
+            {bikeSetup.map(({ item, cost, icon: Icon }, idx) => (
               <div key={item} className="flex items-center justify-between border-b border-border/30 pb-3 last:border-0">
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-lg bg-surface/60 flex items-center justify-center">
@@ -110,7 +112,11 @@ function Fleet() {
                   </div>
                   <span className="text-sm">{item}</span>
                 </div>
-                <span className="font-mono text-sm">{m(cost)}</span>
+                <EditableMoney
+                  value={cost}
+                  step={cost >= 500 ? 50 : 5}
+                  onChange={(v) => setBikeSetup(bikeSetup.map((b, i) => (i === idx ? { ...b, cost: v } : b)))}
+                />
               </div>
             ))}
             <div className="flex items-center justify-between pt-3 border-t border-border/40">

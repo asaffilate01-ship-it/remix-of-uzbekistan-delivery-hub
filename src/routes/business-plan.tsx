@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCurrency, Disclaimer } from "@/lib/currency";
+import { useState } from "react";
+import { Disclaimer, EditableMoney } from "@/lib/currency";
 
 export const Route = createFileRoute("/business-plan")({
   head: () => ({ meta: [
@@ -31,19 +32,21 @@ const sections = [
   { h: "Long-term vision", body: "Becomes Uzbekistan's logistics operating system: fleets, riders, merchant tech, payments, financing, marketplace infrastructure, last-mile logistics, delivery SaaS and fintech ecosystem — not just a delivery company." },
 ];
 
+type LaunchRow = { label: string; value: number; bold?: boolean };
+const DEFAULT_LAUNCH: LaunchRow[] = [
+  { label: "Bikes (500 × $1,490)", value: 745000 },
+  { label: "Spare bikes", value: 75000 },
+  { label: "Operations centre (Tashkent)", value: 125000 },
+  { label: "Regional hubs", value: 150000 },
+  { label: "Tech development", value: 320000 },
+  { label: "Initial staff", value: 150000 },
+  { label: "Working capital", value: 380000 },
+  { label: "Total launch capital", value: 1945000, bold: true },
+  { label: "Full 3,000-rider ecosystem", value: 7000000, bold: true },
+];
+
 function BusinessPlan() {
-  const { m } = useCurrency();
-  const launch: ReadonlyArray<readonly [string, number, boolean?]> = [
-    ["Bikes (500 × $1,490)", 745000],
-    ["Spare bikes", 75000],
-    ["Operations centre (Tashkent)", 125000],
-    ["Regional hubs", 150000],
-    ["Tech development", 320000],
-    ["Initial staff", 150000],
-    ["Working capital", 380000],
-    ["Total launch capital", 1945000, true],
-    ["Full 3,000-rider ecosystem", 7000000, true],
-  ];
+  const [launch, setLaunch] = useState<LaunchRow[]>(DEFAULT_LAUNCH);
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <header className="mb-8">
@@ -95,14 +98,24 @@ function BusinessPlan() {
 
       {/* Capital table */}
       <section className="mt-16">
-        <h2 className="text-2xl font-display font-semibold">Initial launch capital · 500 riders</h2>
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-2xl font-display font-semibold">Initial launch capital · 500 riders</h2>
+          <button onClick={() => setLaunch(DEFAULT_LAUNCH)} className="text-xs text-muted-foreground hover:text-primary">Reset</button>
+        </div>
+        <p className="text-xs text-muted-foreground mt-1">Click any value to edit.</p>
         <div className="mt-5 glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <tbody>
-              {launch.map(([k, v, bold]) => (
-                <tr key={k} className={`border-b border-border/30 last:border-0 ${bold ? "bg-surface/40 font-semibold" : ""}`}>
-                  <td className="px-5 py-3.5">{k}</td>
-                  <td className="px-5 py-3.5 text-right font-mono">{m(v)}</td>
+              {launch.map((r, i) => (
+                <tr key={r.label} className={`border-b border-border/30 last:border-0 ${r.bold ? "bg-surface/40 font-semibold" : ""}`}>
+                  <td className="px-5 py-3.5">{r.label}</td>
+                  <td className="px-5 py-3.5 text-right">
+                    <EditableMoney
+                      value={r.value}
+                      onChange={(v) => setLaunch(launch.map((row, idx) => (idx === i ? { ...row, value: v } : row)))}
+                      step={r.bold ? 100000 : 25000}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
