@@ -221,7 +221,7 @@ function Home() {
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
               <Link to="/platform" className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground glow-primary">Explore the platform</Link>
-              <Link to="/uzbek" className="inline-flex items-center gap-2 rounded-md border border-border/60 px-5 py-3 text-sm">O'zbekcha versiya</Link>
+              <Link to="/business-plan" className="inline-flex items-center gap-2 rounded-md border border-border/60 px-5 py-3 text-sm">Read the plan</Link>
             </div>
           </div>
         </div>
