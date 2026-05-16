@@ -74,9 +74,9 @@ function Uzbek() {
         <h2 className="text-2xl font-display font-semibold mb-5">Daromad modeli</h2>
         <div className="grid md:grid-cols-2 gap-4">
           {[
-            ["Yetkazib berish marjinasi", "Platforma har bir buyurtma uchun ~£0.80–£1.80 to'laydi. Haydovchi £0.50–£1.20 oladi, park esa farqni saqlaydi."],
-            ["Mototsikl ijarasi", "Haftasiga £8–£20 har bir haydovchi uchun."],
-            ["Haydovchi moliyalashtirish", "£950 lik mototsikl £1,500+ ga moliyalashtiriladi — uzoq muddatda juda foydali."],
+            ["Yetkazib berish marjinasi", "Platforma har bir buyurtma uchun ~$1.00–$2.30 to'laydi. Haydovchi $0.65–$1.50 oladi, park esa farqni saqlaydi."],
+            ["Mototsikl ijarasi", "Haftasiga $10–$25 har bir haydovchi uchun."],
+            ["Haydovchi moliyalashtirish", "$1,200 lik mototsikl $1,900+ ga moliyalashtiriladi — uzoq muddatda juda foydali."],
             ["Savdogarlar SaaS", "Oylik obuna: POS, CRM, buyurtma, analitika."],
             ["Maxsus park shartnomalari", "Oziq-ovqat tarmoqlari, dorixonalar, restoranlar uchun."],
             ["Reklama daromadlari", "Mototsikl brendingi, yetkazib berish qutilari, savdogarlar promosi."],
@@ -95,10 +95,10 @@ function Uzbek() {
         <div className="glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <tbody>
-              {sariflar.map(([k, v], i, a) => (
-                <tr key={k} className={`border-b border-border/30 last:border-0 ${i === a.length - 1 ? "bg-surface/40 font-semibold" : ""}`}>
+              {sariflarUSD.map(([k, v, bold]) => (
+                <tr key={k} className={`border-b border-border/30 last:border-0 ${bold ? "bg-surface/40 font-semibold" : ""}`}>
                   <td className="px-5 py-3.5">{k}</td>
-                  <td className="px-5 py-3.5 text-right font-mono">{v}</td>
+                  <td className="px-5 py-3.5 text-right font-mono">{m(v)}</td>
                 </tr>
               ))}
             </tbody>
