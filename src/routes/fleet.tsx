@@ -22,8 +22,8 @@ const cities = [
   { city: "Other cities", riders: 150, drops: 2400, hub: "Partner hubs" },
 ];
 
-// USD defaults (illustrative — overridden by sliders elsewhere).
-const bikeSetup = [
+// USD defaults (illustrative — fully editable below).
+const DEFAULT_BIKE = [
   { item: "Motorcycle (Bajaj Boxer)", cost: 1200, icon: Bike },
   { item: "Registration", cost: 60, icon: Shield },
   { item: "Insurance (annual)", cost: 15, icon: Shield },
@@ -33,12 +33,13 @@ const bikeSetup = [
   { item: "Branding & livery", cost: 30, icon: Wrench },
 ];
 
-const totalBike = bikeSetup.reduce((s, b) => s + b.cost, 0);
 const totalRiders = cities.reduce((s, c) => s + c.riders, 0);
 const totalDrops = cities.reduce((s, c) => s + c.drops, 0);
 
 function Fleet() {
   const { m } = useCurrency();
+  const [bikeSetup, setBikeSetup] = useState(DEFAULT_BIKE);
+  const totalBike = bikeSetup.reduce((s, b) => s + b.cost, 0);
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
       <header className="max-w-3xl mb-8">
