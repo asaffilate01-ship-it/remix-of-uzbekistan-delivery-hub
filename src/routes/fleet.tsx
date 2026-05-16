@@ -7,10 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Bike, Wrench, Shield, MapPin, Box, Radio, Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/fleet")({
-  head: () => ({ meta: [
-    { title: "Fleet & Riders — Qatnov" },
-    { name: "description", content: "Rider distribution, motorcycle strategy, asset costs and city allocation." },
-  ]}),
+  head: () => ({
+    meta: [
+      { title: "Fleet & Riders — Qatnov" },
+      { name: "description", content: "Rider distribution, motorcycle strategy, asset costs and city allocation." },
+      { property: "og:title", content: "Fleet & Riders — Qatnov" },
+      { property: "og:description", content: "Live sliders for rider count, bike economics and per-city allocation." },
+      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/fleet" },
+    ],
+    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/fleet" }],
+  }),
   component: Fleet,
 });
 

@@ -8,7 +8,11 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Qatnov — Uzbekistan's Delivery Infrastructure & Merchant OS" },
       { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. Launching with 500 riders, scaling to 3,000 by month 18. ~$7M ecosystem." },
+      { property: "og:title", content: "Qatnov — Uzbekistan's Logistics Operating System" },
+      { property: "og:description", content: "Fleet, merchant tech, marketplace and fintech for Uzbekistan. 500 → 3,000 riders by month 18." },
+      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/" }],
   }),
   component: Home,
 });

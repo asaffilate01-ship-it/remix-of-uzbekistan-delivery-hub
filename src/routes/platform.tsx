@@ -9,10 +9,16 @@ import { num } from "@/lib/format";
 import { useCurrency } from "@/lib/currency";
 
 export const Route = createFileRoute("/platform")({
-  head: () => ({ meta: [
-    { title: "Operating Platform — Qatnov" },
-    { name: "description", content: "Qatnov's proprietary fleet operating platform: bikes, riders, merchants, compliance, payroll and analytics — built for our own operations." },
-  ]}),
+  head: () => ({
+    meta: [
+      { title: "Operating Platform — Qatnov" },
+      { name: "description", content: "Qatnov's proprietary fleet operating platform: bikes, riders, merchants, compliance, payroll and analytics — built for our own operations." },
+      { property: "og:title", content: "Operating Platform — Qatnov" },
+      { property: "og:description", content: "Dispatch, riders, merchants and analytics — Qatnov's proprietary operations platform." },
+      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/platform" },
+    ],
+    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/platform" }],
+  }),
   component: Platform,
 });
 

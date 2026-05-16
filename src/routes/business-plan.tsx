@@ -3,10 +3,16 @@ import { useState } from "react";
 import { Disclaimer, EditableMoney } from "@/lib/currency";
 
 export const Route = createFileRoute("/business-plan")({
-  head: () => ({ meta: [
-    { title: "Business Plan — Qatnov" },
-    { name: "description", content: "Full strategic plan: phased rollout, market opportunity, technology, risks and exit." },
-  ]}),
+  head: () => ({
+    meta: [
+      { title: "Business Plan — Qatnov" },
+      { name: "description", content: "Full strategic plan: phased rollout, market opportunity, technology, risks and exit." },
+      { property: "og:title", content: "Business Plan — Qatnov" },
+      { property: "og:description", content: "Phased rollout, market, technology, risks and exit for Uzbekistan's logistics OS." },
+      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/business-plan" },
+    ],
+    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/business-plan" }],
+  }),
   component: BusinessPlan,
 });
 

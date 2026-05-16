@@ -6,10 +6,16 @@ import { useCurrency, Disclaimer, EditableMoney } from "@/lib/currency";
 import { num } from "@/lib/format";
 
 export const Route = createFileRoute("/financials")({
-  head: () => ({ meta: [
-    { title: "Financial Model — Qatnov" },
-    { name: "description", content: "Scenario sliders drive a live P&L, balance sheet and 12-month cash flow forecast." },
-  ]}),
+  head: () => ({
+    meta: [
+      { title: "Financial Model — Qatnov" },
+      { name: "description", content: "Scenario sliders drive a live P&L, balance sheet and 12-month cash flow forecast." },
+      { property: "og:title", content: "Financial Model — Qatnov" },
+      { property: "og:description", content: "Interactive P&L, balance sheet and cash flow for Qatnov's fleet operations." },
+      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/financials" },
+    ],
+    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/financials" }],
+  }),
   component: Financials,
 });
 
