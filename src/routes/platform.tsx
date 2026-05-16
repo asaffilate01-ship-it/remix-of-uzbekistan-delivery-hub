@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Bike, Store, Users, BarChart3, Map, Bell, Activity, Wallet, Settings, ChevronRight,
+  Shield, FileCheck, Calendar, Fuel, Wrench, MessageSquare, Layers, Building2,
+  Sparkles, ArrowRight, Check, Minus,
 } from "lucide-react";
 import { num } from "@/lib/format";
 import { useCurrency } from "@/lib/currency";
@@ -9,7 +11,7 @@ import { useCurrency } from "@/lib/currency";
 export const Route = createFileRoute("/platform")({
   head: () => ({ meta: [
     { title: "Fleet Platform — Qatnov" },
-    { name: "description", content: "Investor demo of the fleet management platform: rider tracking, SLA monitoring, dispatch and merchant tools." },
+    { name: "description", content: "Qatnov is Uzbekistan's all-in-one delivery fleet platform: bikes, riders, vendors, compliance, payroll and analytics — white-labeled under your brand." },
   ]}),
   component: Platform,
 });
@@ -35,105 +37,422 @@ const merchants = [
   { name: "Makro Express", type: "Grocery", orders: 2050, gmv: 14300, plan: "Pro" },
 ];
 
+const heroStats = [
+  { icon: Building2, v: "500+", l: "Target operators" },
+  { icon: Bike, v: "3,000", l: "Bikes planned" },
+  { icon: Users, v: "500", l: "Riders phase 1" },
+  { icon: Shield, v: "99.9%", l: "Uptime SLA" },
+];
+
+const features = [
+  { i: Bike, t: "Fleet Management", d: "Track every bike — registration, insurance, permits, maintenance and mileage in one place." },
+  { i: Users, t: "Rider Management", d: "Onboard riders with full KYC, document expiry alerts and performance scorecards." },
+  { i: Store, t: "Vendor Portal", d: "Manage contracts with restaurants, groceries and pharmacies with automated invoicing." },
+  { i: Calendar, t: "Gantt Scheduling", d: "Visual shift scheduling with day/week/month views, absence tracking and holidays." },
+  { i: BarChart3, t: "Real-Time Analytics", d: "Revenue, expenses, trip KPIs, fuel and profitability reports with CSV/PDF export." },
+  { i: FileCheck, t: "Compliance & KYC", d: "Licences, permits and IDs — automated expiry alerts so you never miss a renewal." },
+  { i: Layers, t: "White-Label Ready", d: "Your brand, your domain, your colors. Each tenant gets a fully branded experience." },
+  { i: Building2, t: "Multi-Tenant", d: "One platform, unlimited delivery companies. Each tenant is fully isolated." },
+  { i: Wallet, t: "Financial Suite", d: "Rider payroll, vendor invoicing, expense tracking, fines and fuel cost analysis." },
+  { i: Shield, t: "Role-Based Access", d: "Admin, Staff, HR, Finance, Rider, Vendor — each role sees only what they need." },
+  { i: Wrench, t: "Maintenance Tracking", d: "Schedule services, track costs and get alerts when vehicles are due for inspection." },
+  { i: Bell, t: "Smart Notifications", d: "Document expiry, shift reminders, payment due dates — automated across all channels." },
+];
+
+const categoryFeatures: Record<string, { t: string; d: string }[]> = {
+  "Fleet & Vehicles": [
+    { t: "Bike & Vehicle Registry", d: "Track every bike — registration, insurance, permits and mileage in one place." },
+    { t: "Rental Bike Management", d: "Manage rented bikes with rental company tracking, contracts and payment reconciliation." },
+    { t: "Maintenance Tracking", d: "Schedule services, track repair costs and get inspection alerts." },
+    { t: "Fuel Log Management", d: "Log fuel per vehicle with cost/litre, odometer readings and station tracking." },
+    { t: "Fleet Map & GPS", d: "Visualize your fleet on a live map with route tracking and geofencing." },
+    { t: "Accident Reporting", d: "Log accidents with photos, report numbers, insurance claims and repair estimates." },
+  ],
+  "Riders & HR": [
+    { t: "KYC Onboarding", d: "Full document upload, ID verification and registration workflow." },
+    { t: "Document Expiry Alerts", d: "Automated reminders for visas, licences and permits." },
+    { t: "Performance Scorecards", d: "Track SLA, drops/hour, ratings and earnings per rider." },
+    { t: "Shift Scheduling", d: "Gantt-style scheduler with absences, holidays and overtime." },
+    { t: "Biometric Attendance", d: "Clock-in / clock-out via mobile with location verification." },
+    { t: "Driver Portal", d: "Riders see earnings, shifts, documents and tickets in one app." },
+  ],
+  "Finance & Payments": [
+    { t: "Payroll", d: "Weekly and monthly rider payouts with adjustments and deductions." },
+    { t: "Expense Management", d: "Capture receipts, approvals, and project allocation." },
+    { t: "Fines & Penalties", d: "Track issued fines, dispute status and rider deductions." },
+    { t: "Vendor Invoicing", d: "Generate invoices to merchants with breakdowns and aging." },
+    { t: "VAT & Tax Reports", d: "Generate filings ready for Uzbekistan tax authority submission." },
+    { t: "Bank Reconciliation", d: "Match bank statements to platform transactions automatically." },
+  ],
+  "Vendors & Contracts": [
+    { t: "Contract Library", d: "Store, version and renew merchant contracts in one place." },
+    { t: "SLA Tracking", d: "Per-merchant SLA dashboards with breach alerts." },
+    { t: "Pricing Engine", d: "Per-merchant rate cards with surge and zone rules." },
+    { t: "Onboarding Flows", d: "Self-serve merchant signup, KYC and menu import." },
+  ],
+  "Compliance & Security": [
+    { t: "Audit Trail", d: "Every action logged with user, timestamp and IP for compliance." },
+    { t: "GDPR & Data Privacy", d: "Data export, deletion and consent management built-in." },
+    { t: "Role-Based Access", d: "Granular permissions per role, branch and feature." },
+    { t: "Expiry Dashboard", d: "Single view of all documents nearing expiry across the fleet." },
+  ],
+  "Platform & Branding": [
+    { t: "White-Label Branding", d: "Logo, colors, typography and copy — fully yours." },
+    { t: "Custom Domain", d: "Run on your own domain with automatic SSL." },
+    { t: "API Access", d: "RESTful API and webhooks to plug into your existing stack." },
+    { t: "Multi-Branch", d: "Operate multiple cities or franchises under one tenant." },
+  ],
+};
+
+const categories = Object.keys(categoryFeatures);
+
+const plans = [
+  { name: "Standard", price: 499, popular: false, blurb: "For small delivery operators starting out.", features: ["Up to 25 bikes", "Up to 25 riders", "Basic reporting & CSV", "Email support", "Document management", "Rider portal", "Fines & fuel tracking"] },
+  { name: "Growth", price: 1499, popular: true, blurb: "For growing fleets needing advanced features.", features: ["Up to 100 bikes", "Up to 100 riders", "Advanced analytics & PDF", "Priority chat support", "White-label branding", "Gantt scheduling", "KYC & compliance suite", "Vendor invoicing"] },
+  { name: "Enterprise", price: 2499, popular: false, blurb: "For large operations with full feature access.", features: ["Unlimited bikes & riders", "Custom domain", "Dedicated manager", "Full API access", "SLA guarantee", "Audit trail", "Phone support"] },
+  { name: "Multi-Branch", price: 4499, popular: false, blurb: "Unlimited everything. Split payment per branch.", features: ["Unlimited branches", "Split payment per branch", "Branch-level KYC", "Per-branch admin", "All Enterprise features", "Success manager", "On-site training"] },
+];
+
+const compareRows: [string, (string | boolean)[]][] = [
+  ["Bikes / Riders", ["25", "100", "Unlimited", "Unlimited"]],
+  ["Branches", ["1", "1", "1", "Unlimited"]],
+  ["White-Label Branding", [false, true, true, true]],
+  ["Custom Domain", [false, false, true, true]],
+  ["Gantt Scheduling", [false, true, true, true]],
+  ["KYC & Compliance", ["Basic", "Full", "Full", "Full"]],
+  ["Rider Portal", [true, true, true, true]],
+  ["Fines & Fuel", [true, true, true, true]],
+  ["Vendor Invoicing", [false, true, true, true]],
+  ["Fleet Map & GPS", [false, false, true, true]],
+  ["API Access", [false, false, true, true]],
+  ["Audit Trail", [false, false, true, true]],
+  ["Support", ["Email", "Priority", "Phone", "Dedicated"]],
+];
+
 function Platform() {
-  const [tab, setTab] = useState<Tab>("dispatch");
-
   return (
-    <div className="mx-auto max-w-7xl px-6 py-12">
-      <header className="mb-8 flex items-end justify-between flex-wrap gap-4">
+    <div>
+      <Hero />
+      <FeaturesGrid />
+      <CategoryExplorer />
+      <Steps />
+      <Pricing />
+      <CompareTable />
+      <LivePreview />
+      <UserApps />
+      <FinalCTA />
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="relative overflow-hidden border-b border-border/40">
+      <div className="absolute inset-0 grid-bg opacity-40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
+      <div className="absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full bg-primary/20 blur-[120px]" />
+      <div className="absolute -bottom-32 -left-32 h-[480px] w-[480px] rounded-full bg-gold/15 blur-[120px]" />
+
+      <div className="relative mx-auto max-w-7xl px-6 py-20 md:py-28 grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center">
         <div>
-          <div className="text-xs uppercase tracking-[0.2em] text-primary">Fleet management OS</div>
-          <h1 className="mt-3 text-4xl md:text-5xl font-display font-semibold">platform<span className="text-primary">.</span>qatnov</h1>
-          <p className="mt-3 text-muted-foreground max-w-2xl">Interactive preview of the fleet, dispatch and merchant operating system — inspired by what we use internally.</p>
-        </div>
-        <Link to="/" className="text-sm text-muted-foreground hover:text-primary">← back to overview</Link>
-      </header>
-
-      <div className="glass rounded-3xl overflow-hidden border border-border/60">
-        {/* App chrome */}
-        <div className="flex items-center justify-between border-b border-border/40 px-5 py-3 bg-surface/40">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <span className="h-3 w-3 rounded-full bg-destructive/60" />
-              <span className="h-3 w-3 rounded-full bg-gold/60" />
-              <span className="h-3 w-3 rounded-full bg-primary/60" />
-            </div>
-            <div className="ml-4 font-mono text-xs text-muted-foreground">platform.qatnov.uz / dashboard</div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-xs text-primary">
+            <Sparkles className="h-3.5 w-3.5" /> #1 Delivery Fleet Platform in Uzbekistan
           </div>
-          <div className="text-xs text-muted-foreground flex items-center gap-3">
-            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> demo</span>
-            <span>admin@qatnov.uz</span>
+          <h1 className="mt-6 text-5xl md:text-6xl lg:text-7xl font-display font-semibold leading-[1.05] tracking-tight">
+            Manage Your Entire <span className="bg-gradient-to-r from-primary to-gold bg-clip-text text-transparent">Delivery Fleet</span> From One Platform
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground max-w-xl">
+            Bikes, riders, vendors, compliance, payroll and analytics — everything a delivery company needs, white-labeled under your brand.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/platform" className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition">
+              Start 5-Day Free Trial <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a href="#features" className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-border/60 hover:bg-surface/60 transition">
+              See Features
+            </a>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-[220px_1fr] min-h-[680px]">
-          {/* Sidebar */}
-          <aside className="border-r border-border/40 bg-surface/30 p-3">
-            <div className="space-y-1">
-              {[
-                { id: "dispatch", icon: Map, label: "Dispatch" },
-                { id: "riders", icon: Bike, label: "Riders" },
-                { id: "merchants", icon: Store, label: "Merchants" },
-                { id: "analytics", icon: BarChart3, label: "Analytics" },
-              ].map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => setTab(s.id as Tab)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition ${tab === s.id ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-surface/60"}`}
-                >
-                  <s.icon className="h-4 w-4" /> {s.label}
-                </button>
-              ))}
-            </div>
-            <div className="border-t border-border/40 my-4" />
-            <div className="space-y-1">
-              {[
-                { icon: Bell, label: "Incidents", badge: 3 },
-                { icon: Wallet, label: "Finance" },
-                { icon: Settings, label: "Settings" },
-              ].map((s) => (
-                <button key={s.label} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:bg-surface/60">
-                  <s.icon className="h-4 w-4" /> <span className="flex-1 text-left">{s.label}</span>
-                  {s.badge && <span className="text-[10px] bg-destructive text-destructive-foreground rounded-full px-1.5">{s.badge}</span>}
-                </button>
-              ))}
-            </div>
-          </aside>
-
-          {/* Content */}
-          <div className="p-6">
-            {tab === "dispatch" && <Dispatch />}
-            {tab === "riders" && <Riders />}
-            {tab === "merchants" && <Merchants />}
-            {tab === "analytics" && <Analytics />}
-          </div>
-        </div>
-      </div>
-
-      {/* User apps */}
-      <section className="mt-20">
-        <div className="text-xs uppercase tracking-[0.2em] text-primary">Apps for every user</div>
-        <h2 className="mt-3 text-3xl md:text-4xl font-display font-semibold">One platform, four front doors.</h2>
-        <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {[
-            { i: Bike, t: "Rider app", f: ["KYC onboarding", "Active orders & navigation", "Earnings & wallet", "Shift scheduling", "Maintenance alerts"] },
-            { i: Store, t: "Merchant app", f: ["POS & KDS", "Inventory & menus", "CRM & loyalty", "QR & WhatsApp ordering", "Analytics"] },
-            { i: Activity, t: "Fleet dashboard", f: ["Maps & SLA tracking", "Dispatch analytics", "Profitability per rider", "Incident management", "City heat maps"] },
-            { i: Users, t: "Customer app", f: ["Food & grocery", "Pharmacy delivery", "Wallet & loyalty", "Subscriptions", "Tracking & support"] },
-          ].map(({ i: Icon, t, f }) => (
-            <div key={t} className="glass rounded-2xl p-6">
-              <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-primary/20 to-gold/20 flex items-center justify-center">
-                <Icon className="h-5 w-5 text-primary" />
-              </div>
-              <div className="mt-4 font-display text-lg font-semibold">{t}</div>
-              <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
-                {f.map((x) => <li key={x} className="flex gap-2"><ChevronRight className="h-3.5 w-3.5 text-primary mt-0.5" />{x}</li>)}
-              </ul>
+        <div className="grid grid-cols-2 gap-4">
+          {heroStats.map(({ icon: Icon, v, l }) => (
+            <div key={l} className="glass rounded-2xl p-6 border border-border/40">
+              <Icon className="h-5 w-5 text-primary" />
+              <div className="mt-4 text-3xl md:text-4xl font-display font-semibold">{v}</div>
+              <div className="text-sm text-muted-foreground">{l}</div>
             </div>
           ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+  );
+}
+
+function FeaturesGrid() {
+  return (
+    <section id="features" className="mx-auto max-w-7xl px-6 py-24">
+      <div className="max-w-2xl">
+        <div className="text-xs uppercase tracking-[0.2em] text-primary">Enterprise-Grade Features</div>
+        <h2 className="mt-3 text-4xl md:text-5xl font-display font-semibold">Everything You Need to Run a Delivery Fleet</h2>
+        <p className="mt-4 text-muted-foreground">From onboarding your first rider to managing hundreds of bikes — every tool you need.</p>
+      </div>
+      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {features.map(({ i: Icon, t, d }) => (
+          <div key={t} className="group glass rounded-2xl p-6 border border-border/40 hover:border-primary/40 transition">
+            <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-primary/20 to-gold/20 flex items-center justify-center">
+              <Icon className="h-5 w-5 text-primary" />
+            </div>
+            <div className="mt-4 font-display text-lg font-semibold">{t}</div>
+            <p className="mt-2 text-sm text-muted-foreground">{d}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CategoryExplorer() {
+  const [active, setActive] = useState(categories[0]);
+  return (
+    <section className="border-y border-border/40 bg-surface/20">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <div className="text-xs uppercase tracking-[0.2em] text-primary">45+ Features</div>
+            <h2 className="mt-3 text-4xl md:text-5xl font-display font-semibold">Explore Every Feature</h2>
+            <p className="mt-3 text-muted-foreground">Click any category to see the full list of capabilities.</p>
+          </div>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-2">
+          {categories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setActive(c)}
+              className={`px-4 py-2 rounded-full text-sm border transition ${active === c ? "bg-primary text-primary-foreground border-primary" : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-surface/60"}`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {categoryFeatures[active].map((f) => (
+            <div key={f.t} className="rounded-2xl border border-border/40 bg-background/40 p-6">
+              <div className="font-display text-lg font-semibold">{f.t}</div>
+              <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Steps() {
+  const steps = [
+    { n: "01", t: "Sign Up & Brand", d: "Create your account, upload your logo, set your colors and connect your domain." },
+    { n: "02", t: "Add Your Fleet", d: "Import bikes, onboard riders with KYC documents and link your vendor contracts." },
+    { n: "03", t: "Manage & Scale", d: "Schedule shifts, track compliance, process payments and watch your analytics grow." },
+  ];
+  return (
+    <section className="mx-auto max-w-7xl px-6 py-24">
+      <h2 className="text-4xl md:text-5xl font-display font-semibold">Go Live in 3 Steps</h2>
+      <div className="mt-12 grid md:grid-cols-3 gap-6">
+        {steps.map((s) => (
+          <div key={s.n} className="relative rounded-2xl border border-border/40 bg-surface/30 p-8">
+            <div className="text-5xl font-display font-semibold text-primary/30">{s.n}</div>
+            <div className="mt-4 font-display text-xl font-semibold">{s.t}</div>
+            <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Pricing() {
+  const { m } = useCurrency();
+  return (
+    <section id="pricing" className="border-y border-border/40 bg-surface/20">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="text-center max-w-2xl mx-auto">
+          <div className="text-xs uppercase tracking-[0.2em] text-primary">White-Label Ready</div>
+          <h2 className="mt-3 text-4xl md:text-5xl font-display font-semibold">Simple, Transparent Pricing</h2>
+          <p className="mt-4 text-muted-foreground">Start free. Scale as you grow. Every plan includes your brand, your domain, your dashboard.</p>
+        </div>
+        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {plans.map((p) => (
+            <div key={p.name} className={`relative rounded-2xl p-7 border ${p.popular ? "border-primary bg-gradient-to-b from-primary/10 to-transparent" : "border-border/40 bg-background/40"}`}>
+              {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-medium">Most Popular</div>}
+              <div className="font-display text-xl font-semibold">{p.name}</div>
+              <div className="mt-3 text-3xl font-display font-semibold">{m(p.price)}<span className="text-sm font-normal text-muted-foreground">/mo</span></div>
+              <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
+              <ul className="mt-5 space-y-2 text-sm">
+                {p.features.map((f) => (
+                  <li key={f} className="flex gap-2"><Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />{f}</li>
+                ))}
+              </ul>
+              <button className={`mt-6 w-full px-4 py-2.5 rounded-lg text-sm font-medium transition ${p.popular ? "bg-primary text-primary-foreground hover:opacity-90" : "border border-border/60 hover:bg-surface/60"}`}>
+                {p.name === "Multi-Branch" ? "Contact Sales" : "Start Free Trial"}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CompareTable() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 py-24">
+      <h2 className="text-3xl md:text-4xl font-display font-semibold">Compare Plans</h2>
+      <div className="mt-8 overflow-x-auto rounded-2xl border border-border/40">
+        <table className="w-full text-sm">
+          <thead className="bg-surface/60">
+            <tr className="text-left">
+              <th className="px-5 py-4 font-medium">Feature</th>
+              {plans.map((p) => (
+                <th key={p.name} className="px-5 py-4 font-medium">{p.name}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border/30">
+            {compareRows.map(([feat, vals]) => (
+              <tr key={feat} className="hover:bg-surface/30">
+                <td className="px-5 py-3 text-muted-foreground">{feat}</td>
+                {vals.map((v, i) => (
+                  <td key={i} className="px-5 py-3">
+                    {typeof v === "boolean"
+                      ? (v ? <Check className="h-4 w-4 text-primary" /> : <Minus className="h-4 w-4 text-muted-foreground/50" />)
+                      : <span>{v}</span>}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function UserApps() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 py-24">
+      <div className="text-xs uppercase tracking-[0.2em] text-primary">Apps for every user</div>
+      <h2 className="mt-3 text-3xl md:text-4xl font-display font-semibold">One platform, four front doors.</h2>
+      <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {[
+          { i: Bike, t: "Rider app", f: ["KYC onboarding", "Active orders & navigation", "Earnings & wallet", "Shift scheduling", "Maintenance alerts"] },
+          { i: Store, t: "Merchant app", f: ["POS & KDS", "Inventory & menus", "CRM & loyalty", "QR & WhatsApp ordering", "Analytics"] },
+          { i: Activity, t: "Fleet dashboard", f: ["Maps & SLA tracking", "Dispatch analytics", "Profitability per rider", "Incident management", "City heat maps"] },
+          { i: Users, t: "Customer app", f: ["Food & grocery", "Pharmacy delivery", "Wallet & loyalty", "Subscriptions", "Tracking & support"] },
+        ].map(({ i: Icon, t, f }) => (
+          <div key={t} className="glass rounded-2xl p-6 border border-border/40">
+            <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-primary/20 to-gold/20 flex items-center justify-center">
+              <Icon className="h-5 w-5 text-primary" />
+            </div>
+            <div className="mt-4 font-display text-lg font-semibold">{t}</div>
+            <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
+              {f.map((x) => <li key={x} className="flex gap-2"><ChevronRight className="h-3.5 w-3.5 text-primary mt-0.5" />{x}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FinalCTA() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 pb-24">
+      <div className="relative overflow-hidden rounded-3xl border border-border/40 bg-gradient-to-br from-primary/15 via-surface/40 to-gold/10 p-12 md:p-16 text-center">
+        <h2 className="text-4xl md:text-5xl font-display font-semibold">Ready to Modernize Your Fleet?</h2>
+        <p className="mt-4 text-muted-foreground max-w-xl mx-auto">Join the operators building Uzbekistan's delivery infrastructure on Qatnov.</p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <button className="px-5 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90">Start Free Trial</button>
+          <button className="px-5 py-3 rounded-lg border border-border/60 hover:bg-surface/60">Contact Sales</button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LivePreview() {
+  const [tab, setTab] = useState<Tab>("dispatch");
+  return (
+    <section className="border-y border-border/40 bg-surface/20">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="mb-8 flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <div className="text-xs uppercase tracking-[0.2em] text-primary">Interactive preview</div>
+            <h2 className="mt-3 text-3xl md:text-4xl font-display font-semibold">platform<span className="text-primary">.</span>qatnov</h2>
+            <p className="mt-3 text-muted-foreground max-w-2xl">A look at the fleet, dispatch and merchant operating system.</p>
+          </div>
+          <Link to="/" className="text-sm text-muted-foreground hover:text-primary">← back to overview</Link>
+        </div>
+
+        <div className="glass rounded-3xl overflow-hidden border border-border/60">
+          <div className="flex items-center justify-between border-b border-border/40 px-5 py-3 bg-surface/40">
+            <div className="flex items-center gap-2">
+              <div className="flex gap-1.5">
+                <span className="h-3 w-3 rounded-full bg-destructive/60" />
+                <span className="h-3 w-3 rounded-full bg-gold/60" />
+                <span className="h-3 w-3 rounded-full bg-primary/60" />
+              </div>
+              <div className="ml-4 font-mono text-xs text-muted-foreground">platform.qatnov.uz / dashboard</div>
+            </div>
+            <div className="text-xs text-muted-foreground flex items-center gap-3">
+              <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> demo</span>
+              <span>admin@qatnov.uz</span>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-[220px_1fr] min-h-[680px]">
+            <aside className="border-r border-border/40 bg-surface/30 p-3">
+              <div className="space-y-1">
+                {[
+                  { id: "dispatch", icon: Map, label: "Dispatch" },
+                  { id: "riders", icon: Bike, label: "Riders" },
+                  { id: "merchants", icon: Store, label: "Merchants" },
+                  { id: "analytics", icon: BarChart3, label: "Analytics" },
+                ].map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setTab(s.id as Tab)}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition ${tab === s.id ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-surface/60"}`}
+                  >
+                    <s.icon className="h-4 w-4" /> {s.label}
+                  </button>
+                ))}
+              </div>
+              <div className="border-t border-border/40 my-4" />
+              <div className="space-y-1">
+                {[
+                  { icon: Bell, label: "Incidents", badge: 3 },
+                  { icon: MessageSquare, label: "Messages" },
+                  { icon: Fuel, label: "Fuel" },
+                  { icon: Wallet, label: "Finance" },
+                  { icon: Settings, label: "Settings" },
+                ].map((s) => (
+                  <button key={s.label} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:bg-surface/60">
+                    <s.icon className="h-4 w-4" /> <span className="flex-1 text-left">{s.label}</span>
+                    {s.badge && <span className="text-[10px] bg-destructive text-destructive-foreground rounded-full px-1.5">{s.badge}</span>}
+                  </button>
+                ))}
+              </div>
+            </aside>
+
+            <div className="p-6">
+              {tab === "dispatch" && <Dispatch />}
+              {tab === "riders" && <Riders />}
+              {tab === "merchants" && <Merchants />}
+              {tab === "analytics" && <Analytics />}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
