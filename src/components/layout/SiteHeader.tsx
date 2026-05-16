@@ -92,7 +92,7 @@ export function SiteFooter() {
           <ul className="space-y-2 text-muted-foreground">
             <li>3,000 riders</li>
             <li>25+ cities</li>
-            <li>£5.5–6M ecosystem</li>
+            <li>~$7M ecosystem</li>
           </ul>
         </div>
       </div>

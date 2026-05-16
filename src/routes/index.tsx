@@ -25,6 +25,9 @@ function Home() {
   ];
   return (
     <div>
+      <div className="mx-auto max-w-7xl px-6 pt-6">
+        <Disclaimer />
+      </div>
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
