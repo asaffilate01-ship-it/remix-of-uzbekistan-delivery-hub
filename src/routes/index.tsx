@@ -95,7 +95,7 @@ function Home() {
                   </div>
                   <div className="rounded-xl border border-border/40 bg-surface/60 p-4">
                     <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-                      <span>Deliveries (last 12h)</span><span>4,891</span>
+                      <span>Target daily deliveries</span><span>4,000</span>
                     </div>
                     <div className="flex items-end gap-1 h-20">
                       {[28, 35, 22, 48, 55, 41, 62, 70, 58, 75, 88, 72].map((h, i) => (
