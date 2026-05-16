@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as FinancialsRouteImport } from './routes/financials'
 import { Route as BusinessPlanRouteImport } from './routes/business-plan'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlatformRoute = PlatformRouteImport.update({
   id: '/platform',
   path: '/platform',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
   '/platform': typeof PlatformRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
   '/platform': typeof PlatformRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +70,25 @@ export interface FileRoutesById {
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
   '/platform': typeof PlatformRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/business-plan' | '/financials' | '/fleet' | '/platform'
+  fullPaths:
+    | '/'
+    | '/business-plan'
+    | '/financials'
+    | '/fleet'
+    | '/platform'
+    | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/business-plan' | '/financials' | '/fleet' | '/platform'
+  to:
+    | '/'
+    | '/business-plan'
+    | '/financials'
+    | '/fleet'
+    | '/platform'
+    | '/sitemap.xml'
   id:
     | '__root__'
     | '/'
@@ -75,6 +96,7 @@ export interface FileRouteTypes {
     | '/financials'
     | '/fleet'
     | '/platform'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,10 +105,18 @@ export interface RootRouteChildren {
   FinancialsRoute: typeof FinancialsRoute
   FleetRoute: typeof FleetRoute
   PlatformRoute: typeof PlatformRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/platform': {
       id: '/platform'
       path: '/platform'
@@ -131,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinancialsRoute: FinancialsRoute,
   FleetRoute: FleetRoute,
   PlatformRoute: PlatformRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
