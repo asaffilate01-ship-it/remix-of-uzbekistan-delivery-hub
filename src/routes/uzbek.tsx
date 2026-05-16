@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCurrency, Disclaimer } from "@/lib/currency";
 
 export const Route = createFileRoute("/uzbek")({
   head: () => ({ meta: [
