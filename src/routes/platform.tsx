@@ -9,7 +9,7 @@ import { useCurrency } from "@/lib/currency";
 export const Route = createFileRoute("/platform")({
   head: () => ({ meta: [
     { title: "Fleet Platform — Qatnov" },
-    { name: "description", content: "Live demo of the fleet management platform: rider tracking, SLA monitoring, dispatch and merchant tools." },
+    { name: "description", content: "Investor demo of the fleet management platform: rider tracking, SLA monitoring, dispatch and merchant tools." },
   ]}),
   component: Platform,
 });
@@ -61,7 +61,7 @@ function Platform() {
             <div className="ml-4 font-mono text-xs text-muted-foreground">platform.qatnov.uz / dashboard</div>
           </div>
           <div className="text-xs text-muted-foreground flex items-center gap-3">
-            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" /> live</span>
+            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> demo</span>
             <span>admin@qatnov.uz</span>
           </div>
         </div>
@@ -116,9 +116,9 @@ function Platform() {
         <h2 className="mt-3 text-3xl md:text-4xl font-display font-semibold">One platform, four front doors.</h2>
         <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
-            { i: Bike, t: "Rider app", f: ["KYC onboarding", "Live orders & navigation", "Earnings & wallet", "Shift scheduling", "Maintenance alerts"] },
+            { i: Bike, t: "Rider app", f: ["KYC onboarding", "Active orders & navigation", "Earnings & wallet", "Shift scheduling", "Maintenance alerts"] },
             { i: Store, t: "Merchant app", f: ["POS & KDS", "Inventory & menus", "CRM & loyalty", "QR & WhatsApp ordering", "Analytics"] },
-            { i: Activity, t: "Fleet dashboard", f: ["Live maps & SLA", "Dispatch analytics", "Profitability per rider", "Incident management", "City heat maps"] },
+            { i: Activity, t: "Fleet dashboard", f: ["Maps & SLA tracking", "Dispatch analytics", "Profitability per rider", "Incident management", "City heat maps"] },
             { i: Users, t: "Customer app", f: ["Food & grocery", "Pharmacy delivery", "Wallet & loyalty", "Subscriptions", "Tracking & support"] },
           ].map(({ i: Icon, t, f }) => (
             <div key={t} className="glass rounded-2xl p-6">
@@ -142,10 +142,10 @@ function Dispatch() {
     <div className="space-y-5">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { l: "Open orders", v: "1,204", t: "+8%" },
-          { l: "Riders online", v: "2,847", t: "of 3,000" },
-          { l: "Avg ETA", v: "18 min", t: "−2 min" },
-          { l: "SLA today", v: "97.4%", t: "+0.3%" },
+          { l: "Target orders", v: "1,200", t: "day 1 goal" },
+          { l: "Riders planned", v: "500", t: "phase 1" },
+          { l: "Target ETA", v: "22 min", t: "benchmark" },
+          { l: "Target SLA", v: "96%", t: "benchmark" },
         ].map((k) => (
           <div key={k.l} className="rounded-xl border border-border/40 bg-surface/40 p-4">
             <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{k.l}</div>
@@ -158,7 +158,7 @@ function Dispatch() {
         <div className="absolute inset-0 grid-bg opacity-50" />
         <div className="relative">
           <div className="flex items-center justify-between mb-3">
-            <div className="font-display font-semibold">Tashkent · live map</div>
+            <div className="font-display font-semibold">Tashkent · planned coverage</div>
             <div className="text-xs text-muted-foreground font-mono">41.3111° N, 69.2797° E</div>
           </div>
           <div className="relative h-[230px]">
@@ -179,7 +179,7 @@ function Dispatch() {
         </div>
       </div>
       <div className="rounded-xl border border-border/40 overflow-hidden">
-        <div className="bg-surface/60 px-4 py-2.5 text-xs uppercase tracking-wider text-muted-foreground">Live order queue</div>
+        <div className="bg-surface/60 px-4 py-2.5 text-xs uppercase tracking-wider text-muted-foreground">Demo order queue</div>
         <div className="divide-y divide-border/30">
           {[
             ["ORD-94821", "Choyxona Navat → Mirzo Ulug'bek", "12 min", "Akmal R."],
@@ -276,10 +276,10 @@ function Analytics() {
   return (
     <div className="grid md:grid-cols-2 gap-4">
       {[
-        { t: "Deliveries / day", v: "44,400", trend: [40, 55, 48, 62, 70, 65, 78] },
+        { t: "Deliveries / day", v: "4,000", trend: [40, 55, 48, 62, 70, 65, 78] },
         { t: "Avg revenue / drop", v: m(1.4, { decimals: 2 }), trend: [30, 35, 38, 42, 45, 48, 50] },
-        { t: "Active merchants", v: "1,480", trend: [20, 30, 40, 55, 65, 75, 90] },
-        { t: "Net margin %", v: "24.8%", trend: [10, 18, 22, 25, 27, 28, 30] },
+        { t: "Active merchants", v: "120", trend: [20, 30, 40, 55, 65, 75, 90] },
+        { t: "Net margin %", v: "22%", trend: [10, 18, 22, 25, 27, 28, 30] },
       ].map((c) => (
         <div key={c.t} className="rounded-xl border border-border/40 bg-surface/40 p-5">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">{c.t}</div>

@@ -75,17 +75,17 @@ function Home() {
                 <div className="relative glass rounded-3xl p-6 space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-xs text-muted-foreground">LIVE DISPATCH · TASHKENT</div>
-                      <div className="font-display text-lg">Operations control room</div>
+                      <div className="text-xs text-muted-foreground">INVESTOR DEMO · PLANNED OPERATIONS</div>
+                      <div className="font-display text-lg">Target operating model</div>
                     </div>
-                    <span className="text-xs text-primary font-mono">● ONLINE</span>
+                    <span className="text-xs text-muted-foreground font-mono">SIMULATION</span>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { label: "Active riders", value: "2,847", color: "primary" },
-                      { label: "Open orders", value: "1,204", color: "gold" },
-                      { label: "Avg ETA", value: "18 min", color: "primary" },
-                      { label: "SLA today", value: "97.4%", color: "gold" },
+                      { label: "Riders planned", value: "500", color: "primary" },
+                      { label: "Daily orders", value: "4,000", color: "gold" },
+                      { label: "Target ETA", value: "22 min", color: "primary" },
+                      { label: "Target SLA", value: "96%", color: "gold" },
                     ].map((m) => (
                       <div key={m.label} className="rounded-xl bg-surface/60 border border-border/40 p-4">
                         <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{m.label}</div>
@@ -95,7 +95,7 @@ function Home() {
                   </div>
                   <div className="rounded-xl border border-border/40 bg-surface/60 p-4">
                     <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-                      <span>Deliveries (last 12h)</span><span>4,891</span>
+                      <span>Target daily deliveries</span><span>4,000</span>
                     </div>
                     <div className="flex items-end gap-1 h-20">
                       {[28, 35, 22, 48, 55, 41, 62, 70, 58, 75, 88, 72].map((h, i) => (
