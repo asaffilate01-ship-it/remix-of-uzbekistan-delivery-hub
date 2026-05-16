@@ -1,27 +1,28 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Truck, Store, Smartphone, Banknote, MapPin, Bike } from "lucide-react";
-import { gbp, num } from "@/lib/format";
+import { num } from "@/lib/format";
+import { useCurrency, Disclaimer } from "@/lib/currency";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Qatnov — Uzbekistan's Delivery Infrastructure & Merchant OS" },
-      { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. 3,000-rider plan, £5.5–6M ecosystem." },
+      { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. 3,000-rider plan, ~$7M ecosystem." },
     ],
   }),
   component: Home,
 });
 
-const tickerStats = [
-  ["£1.58M", "monthly gross revenue @ scale"],
-  ["3,000", "active riders target"],
-  ["25+", "cities in 24 months"],
-  ["16", "deliveries / rider / day"],
-  ["£700k+", "optimised monthly profit"],
-  ["~38M", "population served"],
-];
-
 function Home() {
+  const { m } = useCurrency();
+  const tickerStats: ReadonlyArray<readonly [string, string]> = [
+    [m(2300850, { compact: true }), "monthly gross revenue @ scale"],
+    ["3,000", "active riders target"],
+    ["25+", "cities in 24 months"],
+    ["16", "deliveries / rider / day"],
+    [`${m(569850, { compact: true })}+`, "modelled monthly net profit"],
+    ["~38M", "population served"],
+  ];
   return (
     <div>
       {/* HERO */}
