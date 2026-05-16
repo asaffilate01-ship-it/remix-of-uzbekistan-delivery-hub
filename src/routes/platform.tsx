@@ -158,7 +158,7 @@ function Dispatch() {
         <div className="absolute inset-0 grid-bg opacity-50" />
         <div className="relative">
           <div className="flex items-center justify-between mb-3">
-            <div className="font-display font-semibold">Tashkent · live map</div>
+            <div className="font-display font-semibold">Tashkent · planned coverage</div>
             <div className="text-xs text-muted-foreground font-mono">41.3111° N, 69.2797° E</div>
           </div>
           <div className="relative h-[230px]">
