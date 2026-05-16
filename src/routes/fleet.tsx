@@ -104,7 +104,7 @@ function Fleet() {
           <h3 className="text-xl font-display font-semibold">Per-rider bike setup</h3>
           <p className="mt-1 text-sm text-muted-foreground">Bajaj Boxer chosen for durability, fuel efficiency and ubiquitous parts. Costs are indicative landed prices.</p>
           <div className="mt-6 space-y-3">
-            {bikeSetup.map(({ item, cost, icon: Icon }) => (
+            {bikeSetup.map(({ item, cost, icon: Icon }, idx) => (
               <div key={item} className="flex items-center justify-between border-b border-border/30 pb-3 last:border-0">
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-lg bg-surface/60 flex items-center justify-center">
@@ -112,7 +112,11 @@ function Fleet() {
                   </div>
                   <span className="text-sm">{item}</span>
                 </div>
-                <span className="font-mono text-sm">{m(cost)}</span>
+                <EditableMoney
+                  value={cost}
+                  step={cost >= 500 ? 50 : 5}
+                  onChange={(v) => setBikeSetup(bikeSetup.map((b, i) => (i === idx ? { ...b, cost: v } : b)))}
+                />
               </div>
             ))}
             <div className="flex items-center justify-between pt-3 border-t border-border/40">
