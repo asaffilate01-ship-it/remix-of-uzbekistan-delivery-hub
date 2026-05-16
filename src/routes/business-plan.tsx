@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCurrency, Disclaimer } from "@/lib/currency";
 
 export const Route = createFileRoute("/business-plan")({
   head: () => ({ meta: [
@@ -21,7 +22,7 @@ const sections = [
   { h: "Core business model", body: "Four divisions built sequentially: (1) Fleet Operations 3PL — riders, motorcycles, dispatch and SLA management for Uzum, Yango, restaurants, pharmacies, supermarkets and e-commerce sellers. (2) Merchant Technology — POS, KDS, CRM, loyalty, analytics, QR ordering, direct ordering apps, white-label storefronts. (3) Marketplace — own food, grocery, courier and pharmacy delivery apps. (4) Fintech — rider financing, motorcycle leasing, merchant finance, SoftPOS, wallets, QR payments and insurance." },
   { h: "Market opportunity", body: "~38M population. Tashkent (3–4M), Samarkand (1.3M), Namangan (1M+), Andijan (800K+), Fergana, Bukhara. Delivery market still early-stage compared to UAE, Saudi, Turkey, UK. Rapidly growing smartphone usage, digital payments, food delivery, e-commerce, social commerce and urbanisation. Restaurants remain under-digitised — a generational SaaS opportunity." },
   { h: "Strategic advantage", body: "Instead of spending millions acquiring customers, use Uzum/Yango demand initially to build merchant relationships, rider network, logistics operations and merchant software ecosystem. Then migrate merchants toward direct ordering and gradually build the own marketplace." },
-  { h: "Revenue model", body: "Delivery margins (platform pays ~£0.80–£1.80 / drop, rider receives £0.50–£1.20, fleet keeps the spread). Motorcycle leasing (£8–£20 / rider / week). Rider financing (£950 bike financed for £1,500+). Merchant SaaS subscriptions. Dedicated fleet contracts for grocery chains, pharmacies, restaurants, marketplaces. Advertising on bike branding, delivery boxes and merchant promotions." },
+  { h: "Revenue model", body: "Delivery margins (platform pays ~$1.00–$2.30 / drop, rider receives $0.65–$1.50, fleet keeps the spread). Motorcycle leasing ($10–$25 / rider / week). Rider financing ($1,200 bike financed for $1,900+). Merchant SaaS subscriptions. Dedicated fleet contracts for grocery chains, pharmacies, restaurants, marketplaces. Advertising on bike branding, delivery boxes and merchant promotions." },
   { h: "Technology platform", body: "Rider app (onboarding/KYC, live orders, wallet, earnings, shifts, GPS, support, rider scoring, maintenance alerts). Merchant platform (POS, KDS, CRM, loyalty, inventory, analytics, direct ordering, QR menus, WhatsApp ordering). Fleet dashboard (live maps, rider tracking, SLA monitoring, dispatch analytics, profitability, rider utilisation, incident management). Dispatch engine (auto-assignment, batching, route optimisation, surge pricing, heat maps, ETA prediction)." },
   { h: "Tech stack", body: "React Native + Next.js frontends. Python FastAPI + Supabase + PostgreSQL + Edge Functions backend. AWS, Redis, WebSockets, Cloudflare infrastructure. Google Maps initially → Yandex Maps later. AI layer for fraud detection, ETA prediction, rider optimisation, demand forecasting, merchant insights." },
   { h: "Operations", body: "HQ in Tashkent handles finance, dispatch, support, onboarding, compliance and analytics. Regional hubs in each city handle bike servicing, rider onboarding, spare bikes, maintenance and local support." },
@@ -31,13 +32,27 @@ const sections = [
 ];
 
 function BusinessPlan() {
+  const { m } = useCurrency();
+  const launch: ReadonlyArray<readonly [string, number, boolean?]> = [
+    ["Bikes (500 × $1,490)", 745000],
+    ["Spare bikes", 75000],
+    ["Operations centre (Tashkent)", 125000],
+    ["Regional hubs", 150000],
+    ["Tech development", 320000],
+    ["Initial staff", 150000],
+    ["Working capital", 380000],
+    ["Total launch capital", 1945000, true],
+    ["Full 3,000-rider ecosystem", 7000000, true],
+  ];
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
-      <header className="mb-12">
+      <header className="mb-8">
         <div className="text-xs uppercase tracking-[0.2em] text-primary">Strategic plan</div>
         <h1 className="mt-3 text-5xl font-display font-semibold">The 3PL + Merchant SaaS + Logistics Platform.</h1>
         <p className="mt-5 text-lg text-muted-foreground max-w-3xl">A five-phase rollout from rider infrastructure to a full logistics operating system — built around Uzbekistan's demand, demographics and digital trajectory.</p>
       </header>
+
+      <Disclaimer className="mb-10" />
 
       {/* Phases timeline */}
       <section className="relative mb-20">
@@ -76,26 +91,18 @@ function BusinessPlan() {
         ))}
       </div>
 
+
+
       {/* Capital table */}
       <section className="mt-16">
         <h2 className="text-2xl font-display font-semibold">Initial launch capital · 500 riders</h2>
         <div className="mt-5 glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <tbody>
-              {[
-                ["Bikes (500 × £1,185)", "£592,500"],
-                ["Spare bikes", "£60,000"],
-                ["Operations centre (Tashkent)", "£100,000"],
-                ["Regional hubs", "£120,000"],
-                ["Tech development", "£250,000"],
-                ["Initial staff", "£120,000"],
-                ["Working capital", "£300,000"],
-                ["Total launch capital", "£1,542,500"],
-                ["Full 3,000-rider ecosystem", "£5.5M – £6M"],
-              ].map(([k, v], idx, arr) => (
-                <tr key={k} className={`border-b border-border/30 last:border-0 ${idx >= arr.length - 2 ? "bg-surface/40 font-semibold" : ""}`}>
+              {launch.map(([k, v, bold]) => (
+                <tr key={k} className={`border-b border-border/30 last:border-0 ${bold ? "bg-surface/40 font-semibold" : ""}`}>
                   <td className="px-5 py-3.5">{k}</td>
-                  <td className="px-5 py-3.5 text-right font-mono">{v}</td>
+                  <td className="px-5 py-3.5 text-right font-mono">{m(v)}</td>
                 </tr>
               ))}
             </tbody>

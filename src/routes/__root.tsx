@@ -4,6 +4,7 @@ import {
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
 import { SiteHeader, SiteFooter } from "@/components/layout/SiteHeader";
+import { CurrencyProvider } from "@/lib/currency";
 
 function NotFoundComponent() {
   return (
@@ -68,9 +69,11 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <SiteHeader />
-      <main className="min-h-[60vh]"><Outlet /></main>
-      <SiteFooter />
+      <CurrencyProvider>
+        <SiteHeader />
+        <main className="min-h-[60vh]"><Outlet /></main>
+        <SiteFooter />
+      </CurrencyProvider>
     </QueryClientProvider>
   );
 }

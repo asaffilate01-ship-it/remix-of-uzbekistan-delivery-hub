@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { CurrencySwitcher } from "@/lib/currency";
 
 const nav = [
   { to: "/", label: "Overview" },
@@ -35,7 +36,8 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-3">
+          <CurrencySwitcher />
           <Link
             to="/platform"
             className="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 transition"
@@ -90,7 +92,7 @@ export function SiteFooter() {
           <ul className="space-y-2 text-muted-foreground">
             <li>3,000 riders</li>
             <li>25+ cities</li>
-            <li>£5.5–6M ecosystem</li>
+            <li>~$7M ecosystem</li>
           </ul>
         </div>
       </div>

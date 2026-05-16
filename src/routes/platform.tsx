@@ -3,7 +3,8 @@ import { useState } from "react";
 import {
   Bike, Store, Users, BarChart3, Map, Bell, Activity, Wallet, Settings, ChevronRight,
 } from "lucide-react";
-import { gbp, num } from "@/lib/format";
+import { num } from "@/lib/format";
+import { useCurrency } from "@/lib/currency";
 
 export const Route = createFileRoute("/platform")({
   head: () => ({ meta: [
@@ -200,6 +201,7 @@ function Dispatch() {
 }
 
 function Riders() {
+  const { m } = useCurrency();
   return (
     <div className="rounded-xl border border-border/40 overflow-hidden">
       <table className="w-full text-sm">
@@ -222,7 +224,7 @@ function Riders() {
               <td className="px-4 py-3 text-muted-foreground">{r.city}</td>
               <td className="px-4 py-3 text-right font-mono">{r.drops}</td>
               <td className="px-4 py-3 text-right font-mono">{r.sla}%</td>
-              <td className="px-4 py-3 text-right font-mono">{gbp(r.earnings, { maximumFractionDigits: 2 })}</td>
+              <td className="px-4 py-3 text-right font-mono">{m(r.earnings, { decimals: 2 })}</td>
               <td className="px-4 py-3">
                 <span className={`text-xs px-2 py-0.5 rounded-full ${
                   r.status === "active" ? "bg-primary/15 text-primary" :
@@ -238,6 +240,7 @@ function Riders() {
 }
 
 function Merchants() {
+  const { m: fmt } = useCurrency();
   return (
     <div className="rounded-xl border border-border/40 overflow-hidden">
       <table className="w-full text-sm">
@@ -251,14 +254,14 @@ function Merchants() {
           </tr>
         </thead>
         <tbody className="divide-y divide-border/30">
-          {merchants.map((m) => (
-            <tr key={m.name} className="hover:bg-surface/30">
-              <td className="px-4 py-3 font-medium">{m.name}</td>
-              <td className="px-4 py-3 text-muted-foreground">{m.type}</td>
-              <td className="px-4 py-3 text-right font-mono">{num(m.orders)}</td>
-              <td className="px-4 py-3 text-right font-mono">{gbp(m.gmv)}</td>
+          {merchants.map((mc) => (
+            <tr key={mc.name} className="hover:bg-surface/30">
+              <td className="px-4 py-3 font-medium">{mc.name}</td>
+              <td className="px-4 py-3 text-muted-foreground">{mc.type}</td>
+              <td className="px-4 py-3 text-right font-mono">{num(mc.orders)}</td>
+              <td className="px-4 py-3 text-right font-mono">{fmt(mc.gmv)}</td>
               <td className="px-4 py-3">
-                <span className="text-xs px-2 py-0.5 rounded-full bg-primary/15 text-primary">{m.plan}</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-primary/15 text-primary">{mc.plan}</span>
               </td>
             </tr>
           ))}
@@ -269,13 +272,14 @@ function Merchants() {
 }
 
 function Analytics() {
+  const { m } = useCurrency();
   return (
     <div className="grid md:grid-cols-2 gap-4">
       {[
         { t: "Deliveries / day", v: "44,400", trend: [40, 55, 48, 62, 70, 65, 78] },
-        { t: "Avg revenue / drop", v: gbp(1.12, { maximumFractionDigits: 2 }), trend: [30, 35, 38, 42, 45, 48, 50] },
+        { t: "Avg revenue / drop", v: m(1.4, { decimals: 2 }), trend: [30, 35, 38, 42, 45, 48, 50] },
         { t: "Active merchants", v: "1,480", trend: [20, 30, 40, 55, 65, 75, 90] },
-        { t: "Net margin %", v: "26.6%", trend: [10, 18, 22, 25, 27, 28, 30] },
+        { t: "Net margin %", v: "24.8%", trend: [10, 18, 22, 25, 27, 28, 30] },
       ].map((c) => (
         <div key={c.t} className="rounded-xl border border-border/40 bg-surface/40 p-5">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">{c.t}</div>

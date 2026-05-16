@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FinancialsModel } from "@/components/financials/FinancialsModel";
-import { gbp } from "@/lib/format";
+import { useCurrency, Disclaimer } from "@/lib/currency";
 
 export const Route = createFileRoute("/financials")({
   head: () => ({ meta: [
@@ -10,56 +10,58 @@ export const Route = createFileRoute("/financials")({
   component: Financials,
 });
 
-const pnl = [
-  ["Gross delivery revenue", 1584000, "3,000 riders × 16 drops × 30d × £1.10"],
-  ["Bike lease revenue", 155880, "£12/wk × 4.33 wks × 3,000 riders"],
-  ["Merchant SaaS subscriptions", 90000, "Phase 2 ramp, ~1,500 merchants × £60"],
-  ["Total revenue", 1829880, "", true],
-  ["Rider payouts", -1008000, "16 × 30 × £0.70 × 3,000"],
-  ["Maintenance & fuel support", -90000, "£30 / rider / mo"],
-  ["Operations staff", -80000, "HQ + regional hubs"],
-  ["Offices & hubs", -30000, ""],
-  ["Tech & support", -25000, ""],
-  ["Insurance & admin", -20000, ""],
-  ["Recruitment & marketing", -20000, ""],
-  ["Bike depreciation", -70000, "Straight-line over 24 months"],
-  ["Total operating cost", -1343000, "", true],
-  ["Net profit (monthly)", 486880, "26.6% margin", true],
-  ["Annualised net profit", 5842560, "Run-rate", true],
-] as const;
+// All amounts are USD. UZS view converts via the FX rate set in the header.
+const pnl: ReadonlyArray<readonly [string, number | null, string, boolean?]> = [
+  ["Gross delivery revenue", 2016000, "3,000 riders × 16 drops × 30d × $1.40"],
+  ["Bike lease revenue", 194850, "$15/wk × 4.33 wks × 3,000 riders"],
+  ["Merchant SaaS subscriptions", 90000, "Phase 2 ramp · ~1,500 merchants × $60"],
+  ["Total revenue", 2300850, "", true],
+  ["Rider payouts", -1296000, "16 × 30 × $0.90 × 3,000"],
+  ["Maintenance & fuel support", -120000, "$40 / rider / mo"],
+  ["Operations staff", -100000, "HQ + regional hubs"],
+  ["Offices & hubs", -40000, ""],
+  ["Tech & support", -35000, ""],
+  ["Insurance & admin", -25000, ""],
+  ["Recruitment & marketing", -25000, ""],
+  ["Bike depreciation", -90000, "Straight-line over ~24 months"],
+  ["Total operating cost", -1731000, "", true],
+  ["Net profit (monthly)", 569850, "24.8% margin", true],
+  ["Annualised net profit", 6838200, "Run-rate", true],
+];
 
-const balance = [
-  ["ASSETS", null, null, true],
-  ["Motorcycles (3,000 × £950)", 2850000, "Owned fleet"],
-  ["Spare bikes & parts", 240000, "8% spare ratio"],
-  ["Tech platform", 600000, "Capitalised dev"],
-  ["Office & hub fit-out", 320000, "8 regional hubs"],
-  ["Working capital / cash", 800000, ""],
-  ["Receivables (Uzum/Yango)", 540000, "~30 day terms"],
-  ["Total assets", 5350000, "", true],
-  ["LIABILITIES & EQUITY", null, null, true],
-  ["Bike financing facility", 1500000, ""],
-  ["Trade payables", 200000, ""],
-  ["Deferred merchant revenue", 75000, ""],
-  ["Equity & retained earnings", 3575000, ""],
-  ["Total liabilities & equity", 5350000, "", true],
-] as const;
+const balance: ReadonlyArray<readonly [string, number | null, string, boolean?]> = [
+  ["ASSETS", null, "", true],
+  ["Motorcycles (3,000 × $1,200)", 3600000, "Owned fleet"],
+  ["Spare bikes & parts", 300000, "~8% spare ratio"],
+  ["Tech platform", 750000, "Capitalised dev"],
+  ["Office & hub fit-out", 400000, "8 regional hubs"],
+  ["Working capital / cash", 1000000, ""],
+  ["Receivables (Uzum / Yango)", 700000, "~30 day terms"],
+  ["Total assets", 6750000, "", true],
+  ["LIABILITIES & EQUITY", null, "", true],
+  ["Bike financing facility", 1900000, ""],
+  ["Trade payables", 250000, ""],
+  ["Deferred merchant revenue", 100000, ""],
+  ["Equity & retained earnings", 4500000, ""],
+  ["Total liabilities & equity", 6750000, "", true],
+];
 
 const cashflow = [
   ["Month", "Inflow", "Outflow", "Net", "Cumulative"],
-  ["M1", 180000, 480000, -300000, -300000],
-  ["M2", 320000, 540000, -220000, -520000],
-  ["M3", 510000, 660000, -150000, -670000],
-  ["M4", 780000, 820000, -40000, -710000],
-  ["M6", 1180000, 1050000, 130000, -480000],
-  ["M9", 1620000, 1280000, 340000, 360000],
-  ["M12", 1829880, 1343000, 486880, 2150000],
+  ["M1", 230000, 610000, -380000, -380000],
+  ["M2", 410000, 685000, -275000, -655000],
+  ["M3", 650000, 840000, -190000, -845000],
+  ["M4", 990000, 1040000, -50000, -895000],
+  ["M6", 1500000, 1335000, 165000, -610000],
+  ["M9", 2060000, 1625000, 435000, 450000],
+  ["M12", 2300850, 1731000, 569850, 2720000],
 ] as const;
 
 function Financials() {
+  const { m } = useCurrency();
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
-      <header className="mb-12 max-w-3xl">
+      <header className="mb-8 max-w-3xl">
         <div className="text-xs uppercase tracking-[0.2em] text-primary">Financial model</div>
         <h1 className="mt-3 text-5xl font-display font-semibold">P&L, balance sheet & cash flow.</h1>
         <p className="mt-4 text-muted-foreground">
@@ -68,20 +70,23 @@ function Financials() {
         </p>
       </header>
 
+      <Disclaimer className="mb-10" />
+
       <FinancialsModel />
 
       {/* P&L */}
       <section className="mt-20">
-        <h2 className="text-2xl font-display font-semibold">Profit & loss · monthly (£)</h2>
+        <h2 className="text-2xl font-display font-semibold">Profit & loss · monthly</h2>
+        <p className="text-xs text-muted-foreground mt-1">Default scenario — change defaults via the sliders above.</p>
         <div className="mt-5 glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <tbody>
               {pnl.map(([label, val, note, bold], i) => (
                 <tr key={i} className={`border-b border-border/30 last:border-0 ${bold ? "bg-surface/40 font-semibold" : ""}`}>
-                  <td className="px-5 py-3.5">{label as string}</td>
-                  <td className="px-5 py-3.5 text-muted-foreground text-xs">{note as string}</td>
+                  <td className="px-5 py-3.5">{label}</td>
+                  <td className="px-5 py-3.5 text-muted-foreground text-xs">{note}</td>
                   <td className={`px-5 py-3.5 text-right font-mono ${typeof val === "number" && val < 0 ? "text-destructive/90" : ""}`}>
-                    {typeof val === "number" ? gbp(val) : ""}
+                    {typeof val === "number" ? m(Math.abs(val)).replace(/^/, val < 0 ? "−" : "") : ""}
                   </td>
                 </tr>
               ))}
@@ -98,9 +103,9 @@ function Financials() {
             <tbody>
               {balance.map(([label, val, note, bold], i) => (
                 <tr key={i} className={`border-b border-border/30 last:border-0 ${bold ? "bg-surface/40 font-semibold uppercase text-xs tracking-wider" : ""}`}>
-                  <td className="px-5 py-3.5">{label as string}</td>
-                  <td className="px-5 py-3.5 text-muted-foreground text-xs">{note as string ?? ""}</td>
-                  <td className="px-5 py-3.5 text-right font-mono">{typeof val === "number" ? gbp(val) : ""}</td>
+                  <td className="px-5 py-3.5">{label}</td>
+                  <td className="px-5 py-3.5 text-muted-foreground text-xs">{note}</td>
+                  <td className="px-5 py-3.5 text-right font-mono">{typeof val === "number" ? m(val) : ""}</td>
                 </tr>
               ))}
             </tbody>
@@ -123,7 +128,7 @@ function Financials() {
                 <tr key={i} className="border-b border-border/30 last:border-0">
                   {row.map((c, j) => (
                     <td key={j} className={`px-5 py-3.5 ${j === 0 ? "font-mono text-primary" : "font-mono text-right"} ${j === 3 && typeof c === "number" && c < 0 ? "text-destructive/90" : ""} ${j === 4 ? "font-semibold" : ""}`}>
-                      {j === 0 ? c : (typeof c === "number" ? gbp(c) : c)}
+                      {j === 0 ? c : (typeof c === "number" ? (c < 0 ? "−" : "") + m(Math.abs(c)) : c)}
                     </td>
                   ))}
                 </tr>
@@ -131,7 +136,7 @@ function Financials() {
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs text-muted-foreground">Cash positive from month 6, cumulative break-even ~month 9.</p>
+        <p className="mt-3 text-xs text-muted-foreground">Illustrative — cash positive ~month 6, cumulative break-even ~month 9 on the default scenario.</p>
       </section>
     </div>
   );

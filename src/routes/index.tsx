@@ -1,29 +1,33 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Truck, Store, Smartphone, Banknote, MapPin, Bike } from "lucide-react";
-import { gbp, num } from "@/lib/format";
+import { num } from "@/lib/format";
+import { useCurrency, Disclaimer } from "@/lib/currency";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Qatnov — Uzbekistan's Delivery Infrastructure & Merchant OS" },
-      { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. 3,000-rider plan, £5.5–6M ecosystem." },
+      { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. 3,000-rider plan, ~$7M ecosystem." },
     ],
   }),
   component: Home,
 });
 
-const tickerStats = [
-  ["£1.58M", "monthly gross revenue @ scale"],
-  ["3,000", "active riders target"],
-  ["25+", "cities in 24 months"],
-  ["16", "deliveries / rider / day"],
-  ["£700k+", "optimised monthly profit"],
-  ["~38M", "population served"],
-];
-
 function Home() {
+  const { m } = useCurrency();
+  const tickerStats: ReadonlyArray<readonly [string, string]> = [
+    [m(2300850, { compact: true }), "monthly gross revenue @ scale"],
+    ["3,000", "active riders target"],
+    ["25+", "cities in 24 months"],
+    ["16", "deliveries / rider / day"],
+    [`${m(569850, { compact: true })}+`, "modelled monthly net profit"],
+    ["~38M", "population served"],
+  ];
   return (
     <div>
+      <div className="mx-auto max-w-7xl px-6 pt-6">
+        <Disclaimer />
+      </div>
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
@@ -32,7 +36,7 @@ function Home() {
             <div className="lg:col-span-7 animate-fade-up">
               <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-surface/50 px-3 py-1 text-xs text-muted-foreground">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                Strategic plan · 2025–2030 · Tashkent HQ
+                Strategic plan · 2026–2030 · Tashkent HQ
               </div>
               <h1 className="mt-6 font-display text-5xl md:text-7xl font-semibold tracking-tight leading-[1.02]">
                 Uzbekistan's
@@ -54,8 +58,8 @@ function Home() {
               <div className="mt-12 grid grid-cols-3 gap-6 max-w-xl">
                 {[
                   ["3,000", "riders"],
-                  ["£1.58M", "gross / mo"],
-                  ["£5.5M", "ecosystem"],
+                  [m(2300850, { compact: true }), "gross / mo"],
+                  [m(7000000, { compact: true }), "ecosystem"],
                 ].map(([v, l]) => (
                   <div key={l}>
                     <div className="text-3xl font-display font-semibold gradient-text">{v}</div>
@@ -189,9 +193,9 @@ function Home() {
       <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { k: "Capex per bike-rider unit", v: gbp(1185), s: "Bike, registration, insurance, box, gear, GPS, branding" },
-            { k: "Initial launch capital", v: gbp(1500000), s: "500 riders, hubs, tech, working capital" },
-            { k: "Full ecosystem", v: "£5.5–6M", s: "3,000 riders across 25+ cities" },
+            { k: "Capex per bike-rider unit", v: m(1490), s: "Bike, registration, insurance, box, gear, GPS, branding" },
+            { k: "Initial launch capital", v: m(1945000), s: "500 riders, hubs, tech, working capital" },
+            { k: "Full ecosystem", v: m(7000000, { compact: true }), s: "3,000 riders across 25+ cities" },
           ].map((x) => (
             <div key={x.k} className="glass rounded-2xl p-7">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">{x.k}</div>
