@@ -88,7 +88,7 @@ export function FinancialsModel({ initial }: { initial?: Partial<Inputs> }) {
       <div className="glass rounded-2xl p-6 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-xl font-display font-semibold">Live financial model</h3>
+            <h3 className="text-xl font-display font-semibold">Interactive financial model</h3>
             <p className="text-sm text-muted-foreground">Drag the sliders — every figure on this page recalculates instantly. Switch currency in the header.</p>
           </div>
           <button onClick={() => setI(DEFAULT_INPUTS)} className="text-xs text-muted-foreground hover:text-primary transition">Reset</button>
