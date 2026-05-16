@@ -162,7 +162,7 @@ function Home() {
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-primary">Market</div>
               <h2 className="mt-3 text-4xl font-display font-semibold">~38M people. Six anchor cities.</h2>
-              <p className="mt-4 text-muted-foreground">Rapid smartphone, digital payments and food delivery growth — earlier-stage than UAE, Saudi or Turkey.</p>
+              <p className="mt-4 text-muted-foreground">Rapid smartphone, digital payments and food delivery growth — a high-velocity emerging market.</p>
               <Link to="/fleet" className="mt-6 inline-flex items-center gap-2 text-primary text-sm">
                 See full fleet allocation <ArrowRight className="h-4 w-4" />
               </Link>
