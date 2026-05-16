@@ -33,7 +33,7 @@ function Home() {
             <div className="lg:col-span-7 animate-fade-up">
               <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-surface/50 px-3 py-1 text-xs text-muted-foreground">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                Strategic plan · 2025–2030 · Tashkent HQ
+                Strategic plan · 2026–2030 · Tashkent HQ
               </div>
               <h1 className="mt-6 font-display text-5xl md:text-7xl font-semibold tracking-tight leading-[1.02]">
                 Uzbekistan's
@@ -55,8 +55,8 @@ function Home() {
               <div className="mt-12 grid grid-cols-3 gap-6 max-w-xl">
                 {[
                   ["3,000", "riders"],
-                  ["£1.58M", "gross / mo"],
-                  ["£5.5M", "ecosystem"],
+                  [m(2300850, { compact: true }), "gross / mo"],
+                  [m(7000000, { compact: true }), "ecosystem"],
                 ].map(([v, l]) => (
                   <div key={l}>
                     <div className="text-3xl font-display font-semibold gradient-text">{v}</div>
