@@ -61,7 +61,7 @@ function Platform() {
             <div className="ml-4 font-mono text-xs text-muted-foreground">platform.qatnov.uz / dashboard</div>
           </div>
           <div className="text-xs text-muted-foreground flex items-center gap-3">
-            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" /> live</span>
+            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> demo</span>
             <span>admin@qatnov.uz</span>
           </div>
         </div>
