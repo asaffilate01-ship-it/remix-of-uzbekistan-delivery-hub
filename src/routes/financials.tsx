@@ -60,6 +60,8 @@ const DEFAULT_CAPEX_EXTRA: CapexLine[] = [
   { id: "cap-spares", label: "Spare bikes & parts", amount: 50000, life: 36 },
   { id: "cap-tech", label: "Tech platform build", amount: 250000, life: 36 },
   { id: "cap-fitout", label: "Office & hub fit-out", amount: 100000, life: 60 },
+  { id: "cap-office", label: "Office setup", amount: 50000, life: 60 },
+  { id: "cap-it", label: "IT setup", amount: 50000, life: 36 },
 ];
 const DEFAULT_FUNDING_EXTRA: Line[] = [
   { id: "fund-founder", label: "Founder equity", amount: 250000 },
@@ -144,11 +146,11 @@ function Financials() {
   }, [revenue, expenses, capex, funding]);
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-16">
       <header className="mb-8 max-w-3xl">
         <div className="text-xs uppercase tracking-[0.2em] text-primary">Financial model</div>
-        <h1 className="mt-3 text-5xl font-display font-semibold">Scenario sliders. Live statements.</h1>
-        <p className="mt-4 text-muted-foreground">
+        <h1 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-display font-semibold leading-tight">Scenario sliders. Live statements.</h1>
+        <p className="mt-4 text-sm sm:text-base text-muted-foreground">
           Move any slider — revenue, expenses, capex and funding all recalculate instantly, and the P&L, balance sheet and 12-month cash flow follow.
         </p>
       </header>
@@ -156,7 +158,7 @@ function Financials() {
       <Disclaimer className="mb-10" />
 
       {/* Scenario sliders */}
-      <section className="glass rounded-2xl p-6 md:p-8 mb-10">
+      <section className="glass rounded-2xl p-4 sm:p-6 md:p-8 mb-10">
         <div className="flex items-start justify-between mb-6">
           <div>
             <h2 className="text-xl font-display font-semibold">Scenario inputs</h2>
@@ -245,7 +247,7 @@ function Financials() {
       <section className="mt-16">
         <h2 className="text-2xl font-display font-semibold">Profit & loss · monthly (derived)</h2>
         <p className="text-xs text-muted-foreground mt-1">Calculated from sliders + extra lines.</p>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
+        <div className="mt-5 glass rounded-2xl overflow-x-auto">
           <table className="w-full text-sm">
             <tbody>
               {revenue.map((r) => (
@@ -293,7 +295,7 @@ function Financials() {
       <section className="mt-16">
         <h2 className="text-2xl font-display font-semibold">Balance sheet · end of year 1 (derived)</h2>
         <p className="text-xs text-muted-foreground mt-1">Capex less depreciation plus closing cash vs funding plus retained earnings.</p>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
+        <div className="mt-5 glass rounded-2xl overflow-x-auto">
           <table className="w-full text-sm">
             <tbody>
               <tr className="bg-surface/40 uppercase text-xs tracking-wider font-semibold"><td className="px-5 py-3" colSpan={2}>Assets</td></tr>
@@ -333,7 +335,7 @@ function Financials() {
       <section className="mt-16 mb-8">
         <h2 className="text-2xl font-display font-semibold">12-month cash flow forecast (derived)</h2>
         <p className="text-xs text-muted-foreground mt-1">M0 = funding in, capex out. M1–M12 = revenue and expenses ramped to full scale.</p>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
+        <div className="mt-5 glass rounded-2xl overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-surface/60 text-xs uppercase tracking-wider text-muted-foreground">
@@ -406,7 +408,7 @@ function ExtraList({
   const totalColor = accent === "destructive" ? "text-destructive/90" : accent === "gold" ? "text-gold" : "text-primary";
 
   return (
-    <div className="glass rounded-2xl p-6">
+    <div className="glass rounded-2xl p-4 sm:p-6">
       <div className="flex items-start justify-between mb-1">
         <h3 className="font-display text-lg font-semibold">{title}</h3>
         <button onClick={onReset} className="text-xs text-muted-foreground hover:text-primary">Reset extras</button>
@@ -420,17 +422,17 @@ function ExtraList({
           </div>
         ))}
         {lines.map((l, i) => (
-          <div key={l.id} className="grid grid-cols-[1fr_auto_auto] items-center gap-2 group">
+          <div key={l.id} className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto] items-center gap-2 group">
             <input
               value={l.label}
               onChange={(e) => setLines(lines.map((x, j) => j === i ? { ...x, label: e.target.value } : x))}
-              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1"
+              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1 min-w-0"
             />
             <EditableMoney value={l.amount} onChange={(v) => setLines(lines.map((x, j) => j === i ? { ...x, amount: v } : x))} step={5000} />
-            <div className="flex items-center opacity-0 group-hover:opacity-100 transition">
-              <button onClick={() => setLines(move(lines, i, i - 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowUp className="h-3 w-3" /></button>
-              <button onClick={() => setLines(move(lines, i, i + 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowDown className="h-3 w-3" /></button>
-              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1 text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3" /></button>
+            <div className="col-span-2 sm:col-span-1 flex items-center justify-end sm:opacity-0 sm:group-hover:opacity-100 transition">
+              <button onClick={() => setLines(move(lines, i, i - 1))} className="p-1.5 text-muted-foreground hover:text-primary"><ArrowUp className="h-3.5 w-3.5" /></button>
+              <button onClick={() => setLines(move(lines, i, i + 1))} className="p-1.5 text-muted-foreground hover:text-primary"><ArrowDown className="h-3.5 w-3.5" /></button>
+              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1.5 text-muted-foreground hover:text-destructive"><Trash2 className="h-3.5 w-3.5" /></button>
             </div>
           </div>
         ))}
@@ -459,7 +461,7 @@ function CapexExtraList({
   const total = drivenAmount + lines.reduce((a, l) => a + l.amount, 0);
 
   return (
-    <div className="glass rounded-2xl p-6">
+    <div className="glass rounded-2xl p-4 sm:p-6">
       <div className="flex items-start justify-between mb-1">
         <h3 className="font-display text-lg font-semibold">{title}</h3>
         <button onClick={onReset} className="text-xs text-muted-foreground hover:text-primary">Reset extras</button>
@@ -471,11 +473,11 @@ function CapexExtraList({
           <span className="font-mono tabular-nums">{m(drivenAmount)}</span>
         </div>
         {lines.map((l, i) => (
-          <div key={l.id} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 group">
+          <div key={l.id} className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto_auto] items-center gap-2 group">
             <input
               value={l.label}
               onChange={(e) => setLines(lines.map((x, j) => j === i ? { ...x, label: e.target.value } : x))}
-              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1"
+              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1 min-w-0"
             />
             <EditableMoney value={l.amount} onChange={(v) => setLines(lines.map((x, j) => j === i ? { ...x, amount: v } : x))} step={25000} />
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -488,10 +490,10 @@ function CapexExtraList({
               />
               <span>mo</span>
             </div>
-            <div className="flex items-center opacity-0 group-hover:opacity-100 transition">
-              <button onClick={() => setLines(move(lines, i, i - 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowUp className="h-3 w-3" /></button>
-              <button onClick={() => setLines(move(lines, i, i + 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowDown className="h-3 w-3" /></button>
-              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1 text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3" /></button>
+            <div className="flex items-center justify-end sm:opacity-0 sm:group-hover:opacity-100 transition">
+              <button onClick={() => setLines(move(lines, i, i - 1))} className="p-1.5 text-muted-foreground hover:text-primary"><ArrowUp className="h-3.5 w-3.5" /></button>
+              <button onClick={() => setLines(move(lines, i, i + 1))} className="p-1.5 text-muted-foreground hover:text-primary"><ArrowDown className="h-3.5 w-3.5" /></button>
+              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1.5 text-muted-foreground hover:text-destructive"><Trash2 className="h-3.5 w-3.5" /></button>
             </div>
           </div>
         ))}
