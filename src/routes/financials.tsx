@@ -247,7 +247,7 @@ function Financials() {
       <section className="mt-16">
         <h2 className="text-2xl font-display font-semibold">Profit & loss · monthly (derived)</h2>
         <p className="text-xs text-muted-foreground mt-1">Calculated from sliders + extra lines.</p>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
+        <div className="mt-5 glass rounded-2xl overflow-x-auto">
           <table className="w-full text-sm">
             <tbody>
               {revenue.map((r) => (
@@ -295,7 +295,7 @@ function Financials() {
       <section className="mt-16">
         <h2 className="text-2xl font-display font-semibold">Balance sheet · end of year 1 (derived)</h2>
         <p className="text-xs text-muted-foreground mt-1">Capex less depreciation plus closing cash vs funding plus retained earnings.</p>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
+        <div className="mt-5 glass rounded-2xl overflow-x-auto">
           <table className="w-full text-sm">
             <tbody>
               <tr className="bg-surface/40 uppercase text-xs tracking-wider font-semibold"><td className="px-5 py-3" colSpan={2}>Assets</td></tr>
@@ -335,7 +335,7 @@ function Financials() {
       <section className="mt-16 mb-8">
         <h2 className="text-2xl font-display font-semibold">12-month cash flow forecast (derived)</h2>
         <p className="text-xs text-muted-foreground mt-1">M0 = funding in, capex out. M1–M12 = revenue and expenses ramped to full scale.</p>
-        <div className="mt-5 glass rounded-2xl overflow-hidden">
+        <div className="mt-5 glass rounded-2xl overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-surface/60 text-xs uppercase tracking-wider text-muted-foreground">
