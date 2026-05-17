@@ -112,6 +112,7 @@ function Financials() {
   ];
   const funding: Line[] = [
     { id: "drv-fin", label: `Bike financing facility (${s.financingPct}% of bikes)`, amount: driven.bikeFinancing },
+    { id: "drv-inv", label: "Initial investment required", amount: Math.max(0, driven.motorcyclesCapex + capExtra.reduce((a, l) => a + l.amount, 0) - driven.bikeFinancing) },
     ...fundExtra,
   ];
 
