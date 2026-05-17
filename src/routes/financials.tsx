@@ -146,11 +146,11 @@ function Financials() {
   }, [revenue, expenses, capex, funding]);
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-16">
       <header className="mb-8 max-w-3xl">
         <div className="text-xs uppercase tracking-[0.2em] text-primary">Financial model</div>
-        <h1 className="mt-3 text-5xl font-display font-semibold">Scenario sliders. Live statements.</h1>
-        <p className="mt-4 text-muted-foreground">
+        <h1 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-display font-semibold leading-tight">Scenario sliders. Live statements.</h1>
+        <p className="mt-4 text-sm sm:text-base text-muted-foreground">
           Move any slider — revenue, expenses, capex and funding all recalculate instantly, and the P&L, balance sheet and 12-month cash flow follow.
         </p>
       </header>
