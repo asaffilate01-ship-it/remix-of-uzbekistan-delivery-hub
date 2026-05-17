@@ -63,10 +63,7 @@ const DEFAULT_CAPEX_EXTRA: CapexLine[] = [
   { id: "cap-office", label: "Office setup", amount: 50000, life: 60 },
   { id: "cap-it", label: "IT setup", amount: 50000, life: 36 },
 ];
-const DEFAULT_FUNDING_EXTRA: Line[] = [
-  { id: "fund-founder", label: "Founder equity", amount: 250000 },
-  { id: "fund-seed", label: "Seed round", amount: 750000 },
-];
+const DEFAULT_FUNDING_EXTRA: Line[] = [];
 
 const RAMP = [0.15, 0.25, 0.4, 0.55, 0.7, 0.82, 0.9, 0.95, 1, 1, 1, 1];
 
