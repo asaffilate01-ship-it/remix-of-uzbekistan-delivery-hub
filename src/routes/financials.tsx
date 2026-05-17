@@ -158,7 +158,7 @@ function Financials() {
       <Disclaimer className="mb-10" />
 
       {/* Scenario sliders */}
-      <section className="glass rounded-2xl p-6 md:p-8 mb-10">
+      <section className="glass rounded-2xl p-4 sm:p-6 md:p-8 mb-10">
         <div className="flex items-start justify-between mb-6">
           <div>
             <h2 className="text-xl font-display font-semibold">Scenario inputs</h2>
