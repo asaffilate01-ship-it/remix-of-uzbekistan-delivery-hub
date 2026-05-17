@@ -63,10 +63,7 @@ const DEFAULT_CAPEX_EXTRA: CapexLine[] = [
   { id: "cap-office", label: "Office setup", amount: 50000, life: 60 },
   { id: "cap-it", label: "IT setup", amount: 50000, life: 36 },
 ];
-const DEFAULT_FUNDING_EXTRA: Line[] = [
-  { id: "fund-founder", label: "Founder equity", amount: 250000 },
-  { id: "fund-seed", label: "Seed round", amount: 750000 },
-];
+const DEFAULT_FUNDING_EXTRA: Line[] = [];
 
 const RAMP = [0.15, 0.25, 0.4, 0.55, 0.7, 0.82, 0.9, 0.95, 1, 1, 1, 1];
 
@@ -115,6 +112,7 @@ function Financials() {
   ];
   const funding: Line[] = [
     { id: "drv-fin", label: `Bike financing facility (${s.financingPct}% of bikes)`, amount: driven.bikeFinancing },
+    { id: "drv-inv", label: "Initial investment required", amount: Math.max(0, driven.motorcyclesCapex + capExtra.reduce((a, l) => a + l.amount, 0) - driven.bikeFinancing) },
     ...fundExtra,
   ];
 
@@ -235,6 +233,7 @@ function Financials() {
           subtitle={`Bike financing (${s.financingPct}% of bikes capex = ${m(driven.bikeFinancing)}) is driven by sliders. Add equity, grants and other debt here.`}
           driven={[
             { label: `Bike financing facility`, amount: driven.bikeFinancing },
+            { label: `Initial investment required`, amount: Math.max(0, driven.motorcyclesCapex + capExtra.reduce((a, l) => a + l.amount, 0) - driven.bikeFinancing) },
           ]}
           lines={fundExtra}
           setLines={setFundExtra}
