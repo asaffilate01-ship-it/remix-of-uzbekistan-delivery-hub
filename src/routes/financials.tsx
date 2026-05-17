@@ -473,11 +473,11 @@ function CapexExtraList({
           <span className="font-mono tabular-nums">{m(drivenAmount)}</span>
         </div>
         {lines.map((l, i) => (
-          <div key={l.id} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 group">
+          <div key={l.id} className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto_auto] items-center gap-2 group">
             <input
               value={l.label}
               onChange={(e) => setLines(lines.map((x, j) => j === i ? { ...x, label: e.target.value } : x))}
-              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1"
+              className="bg-transparent border-b border-transparent hover:border-border/60 focus:border-primary focus:outline-none text-sm py-1.5 px-1 min-w-0"
             />
             <EditableMoney value={l.amount} onChange={(v) => setLines(lines.map((x, j) => j === i ? { ...x, amount: v } : x))} step={25000} />
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -490,10 +490,10 @@ function CapexExtraList({
               />
               <span>mo</span>
             </div>
-            <div className="flex items-center opacity-0 group-hover:opacity-100 transition">
-              <button onClick={() => setLines(move(lines, i, i - 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowUp className="h-3 w-3" /></button>
-              <button onClick={() => setLines(move(lines, i, i + 1))} className="p-1 text-muted-foreground hover:text-primary"><ArrowDown className="h-3 w-3" /></button>
-              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1 text-muted-foreground hover:text-destructive"><Trash2 className="h-3 w-3" /></button>
+            <div className="flex items-center justify-end sm:opacity-0 sm:group-hover:opacity-100 transition">
+              <button onClick={() => setLines(move(lines, i, i - 1))} className="p-1.5 text-muted-foreground hover:text-primary"><ArrowUp className="h-3.5 w-3.5" /></button>
+              <button onClick={() => setLines(move(lines, i, i + 1))} className="p-1.5 text-muted-foreground hover:text-primary"><ArrowDown className="h-3.5 w-3.5" /></button>
+              <button onClick={() => setLines(lines.filter((_, j) => j !== i))} className="p-1.5 text-muted-foreground hover:text-destructive"><Trash2 className="h-3.5 w-3.5" /></button>
             </div>
           </div>
         ))}
