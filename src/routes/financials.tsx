@@ -408,7 +408,7 @@ function ExtraList({
   const totalColor = accent === "destructive" ? "text-destructive/90" : accent === "gold" ? "text-gold" : "text-primary";
 
   return (
-    <div className="glass rounded-2xl p-6">
+    <div className="glass rounded-2xl p-4 sm:p-6">
       <div className="flex items-start justify-between mb-1">
         <h3 className="font-display text-lg font-semibold">{title}</h3>
         <button onClick={onReset} className="text-xs text-muted-foreground hover:text-primary">Reset extras</button>
