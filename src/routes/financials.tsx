@@ -233,6 +233,7 @@ function Financials() {
           subtitle={`Bike financing (${s.financingPct}% of bikes capex = ${m(driven.bikeFinancing)}) is driven by sliders. Add equity, grants and other debt here.`}
           driven={[
             { label: `Bike financing facility`, amount: driven.bikeFinancing },
+            { label: `Initial investment required`, amount: Math.max(0, driven.motorcyclesCapex + capExtra.reduce((a, l) => a + l.amount, 0) - driven.bikeFinancing) },
           ]}
           lines={fundExtra}
           setLines={setFundExtra}
