@@ -60,6 +60,8 @@ const DEFAULT_CAPEX_EXTRA: CapexLine[] = [
   { id: "cap-spares", label: "Spare bikes & parts", amount: 50000, life: 36 },
   { id: "cap-tech", label: "Tech platform build", amount: 250000, life: 36 },
   { id: "cap-fitout", label: "Office & hub fit-out", amount: 100000, life: 60 },
+  { id: "cap-office", label: "Office setup", amount: 50000, life: 60 },
+  { id: "cap-it", label: "IT setup", amount: 50000, life: 36 },
 ];
 const DEFAULT_FUNDING_EXTRA: Line[] = [
   { id: "fund-founder", label: "Founder equity", amount: 250000 },
