@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  Bike, Store, Users, BarChart3, Map, Bell, Activity, Wallet, Settings, ChevronRight,
+  Bike, Store, Users, BarChart3, Map as MapIcon, Bell, Activity, Wallet, Settings, ChevronRight,
   Shield, FileCheck, Calendar, Fuel, Wrench, MessageSquare, Layers, Building2,
   ArrowRight, Lock,
 } from "lucide-react";
