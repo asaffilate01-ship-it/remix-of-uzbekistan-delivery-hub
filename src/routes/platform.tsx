@@ -287,7 +287,7 @@ function LivePreview() {
             <aside className="border-r border-border/40 bg-surface/30 p-3">
               <div className="space-y-1">
                 {[
-                  { id: "dispatch", icon: Map, label: "Dispatch" },
+                  { id: "dispatch", icon: MapIcon, label: "Dispatch" },
                   { id: "riders", icon: Bike, label: "Riders" },
                   { id: "merchants", icon: Store, label: "Merchants" },
                   { id: "analytics", icon: BarChart3, label: "Analytics" },
