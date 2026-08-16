@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as FinancialsRouteImport } from './routes/financials'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BusinessPlanRouteImport } from './routes/business-plan'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -36,6 +37,11 @@ const FinancialsRoute = FinancialsRouteImport.update({
   path: '/financials',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BusinessPlanRoute = BusinessPlanRouteImport.update({
   id: '/business-plan',
   path: '/business-plan',
@@ -50,6 +56,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/business-plan': typeof BusinessPlanRoute
+  '/contact': typeof ContactRoute
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
   '/platform': typeof PlatformRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/business-plan': typeof BusinessPlanRoute
+  '/contact': typeof ContactRoute
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
   '/platform': typeof PlatformRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/business-plan': typeof BusinessPlanRoute
+  '/contact': typeof ContactRoute
   '/financials': typeof FinancialsRoute
   '/fleet': typeof FleetRoute
   '/platform': typeof PlatformRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/business-plan'
+    | '/contact'
     | '/financials'
     | '/fleet'
     | '/platform'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/business-plan'
+    | '/contact'
     | '/financials'
     | '/fleet'
     | '/platform'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/business-plan'
+    | '/contact'
     | '/financials'
     | '/fleet'
     | '/platform'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BusinessPlanRoute: typeof BusinessPlanRoute
+  ContactRoute: typeof ContactRoute
   FinancialsRoute: typeof FinancialsRoute
   FleetRoute: typeof FleetRoute
   PlatformRoute: typeof PlatformRoute
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancialsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/business-plan': {
       id: '/business-plan'
       path: '/business-plan'
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BusinessPlanRoute: BusinessPlanRoute,
+  ContactRoute: ContactRoute,
   FinancialsRoute: FinancialsRoute,
   FleetRoute: FleetRoute,
   PlatformRoute: PlatformRoute,

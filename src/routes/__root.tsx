@@ -36,7 +36,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#0b0d10" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Qatnov" },
       { title: "Qatnov — Uzbekistan's Delivery Infrastructure & Merchant OS" },
       { name: "description", content: "Strategic plan, financial model, fleet operations and merchant SaaS powering delivery in Uzbekistan." },
       { property: "og:title", content: "Qatnov — Uzbekistan's Delivery Infrastructure & Merchant OS" },
