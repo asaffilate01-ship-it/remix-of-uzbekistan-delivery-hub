@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://uzbek-delivery-flow.lovable.app/sitemap.xml
+Sitemap: https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/sitemap.xml
