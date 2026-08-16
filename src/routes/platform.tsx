@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  Bike, Store, Users, BarChart3, Map, Bell, Activity, Wallet, Settings, ChevronRight,
+  Bike, Store, Users, BarChart3, Map as MapIcon, Bell, Activity, Wallet, Settings, ChevronRight,
   Shield, FileCheck, Calendar, Fuel, Wrench, MessageSquare, Layers, Building2,
   ArrowRight, Lock,
 } from "lucide-react";
@@ -287,7 +287,7 @@ function LivePreview() {
             <aside className="border-r border-border/40 bg-surface/30 p-3">
               <div className="space-y-1">
                 {[
-                  { id: "dispatch", icon: Map, label: "Dispatch" },
+                  { id: "dispatch", icon: MapIcon, label: "Dispatch" },
                   { id: "riders", icon: Bike, label: "Riders" },
                   { id: "merchants", icon: Store, label: "Merchants" },
                   { id: "analytics", icon: BarChart3, label: "Analytics" },
