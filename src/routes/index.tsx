@@ -10,9 +10,9 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "3PL fleet, merchant SaaS, marketplace and fintech for Uzbekistan. Launching with 500 riders, scaling to 3,000 by month 18. ~$7M ecosystem." },
       { property: "og:title", content: "Qatnov — Uzbekistan's Logistics Operating System" },
       { property: "og:description", content: "Fleet, merchant tech, marketplace and fintech for Uzbekistan. 500 → 3,000 riders by month 18." },
-      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/" },
+      { property: "og:url", content: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/" },
     ],
-    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/" }],
   }),
   component: Home,
 });
@@ -220,8 +220,8 @@ function Home() {
               <p className="mt-3 text-muted-foreground">Fleets, riders, merchant tech, payments, financing — the operating system for the last mile.</p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
-              <Link to="/platform" className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground glow-primary">Explore the platform</Link>
-              <Link to="/business-plan" className="inline-flex items-center gap-2 rounded-md border border-border/60 px-5 py-3 text-sm">Read the plan</Link>
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground glow-primary">Get in touch</Link>
+              <Link to="/platform" className="inline-flex items-center gap-2 rounded-md border border-border/60 px-5 py-3 text-sm">Explore the platform</Link>
             </div>
           </div>
         </div>

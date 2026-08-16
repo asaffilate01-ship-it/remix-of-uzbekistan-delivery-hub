@@ -15,9 +15,9 @@ export const Route = createFileRoute("/platform")({
       { name: "description", content: "Qatnov's proprietary fleet operating platform: bikes, riders, merchants, compliance, payroll and analytics — built for our own operations." },
       { property: "og:title", content: "Operating Platform — Qatnov" },
       { property: "og:description", content: "Dispatch, riders, merchants and analytics — Qatnov's proprietary operations platform." },
-      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/platform" },
+      { property: "og:url", content: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/platform" },
     ],
-    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/platform" }],
+    links: [{ rel: "canonical", href: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/platform" }],
   }),
   component: Platform,
 });
@@ -36,11 +36,11 @@ const riders = [
 ];
 
 const merchants = [
-  { name: "Choyxona Navat", type: "Restaurant", orders: 1240, gmv: 8600, plan: "Pro" },
-  { name: "Korzinka.uz", type: "Grocery", orders: 5810, gmv: 41200, plan: "Enterprise" },
+  { name: "Choyxona Sample", type: "Restaurant", orders: 1240, gmv: 8600, plan: "Pro" },
+  { name: "Bozor Market (sample)", type: "Grocery", orders: 5810, gmv: 41200, plan: "Enterprise" },
   { name: "Apteka Karavan", type: "Pharmacy", orders: 720, gmv: 4900, plan: "Standard" },
-  { name: "Evos Burger", type: "Restaurant", orders: 3120, gmv: 18700, plan: "Pro" },
-  { name: "Makro Express", type: "Grocery", orders: 2050, gmv: 14300, plan: "Pro" },
+  { name: "Burger House (sample)", type: "Restaurant", orders: 3120, gmv: 18700, plan: "Pro" },
+  { name: "Express Mart (sample)", type: "Grocery", orders: 2050, gmv: 14300, plan: "Pro" },
 ];
 
 const heroStats = [
@@ -115,6 +115,13 @@ const categories = Object.keys(categoryFeatures);
 function Platform() {
   return (
     <div>
+      <div className="mx-auto max-w-7xl px-6 pt-6">
+        <div className="rounded-xl border border-gold/30 bg-gold/5 px-4 py-3 text-xs text-muted-foreground">
+          <span className="font-mono text-gold">PRODUCT PREVIEW · </span>
+          Screens below use illustrative sample data. Rider names, merchants, orders and
+          metrics are fictional and do not represent real customers or live operations.
+        </div>
+      </div>
       <Hero />
       <FeaturesGrid />
       <CategoryExplorer />
@@ -376,9 +383,9 @@ function Dispatch() {
         <div className="bg-surface/60 px-4 py-2.5 text-xs uppercase tracking-wider text-muted-foreground">Demo order queue</div>
         <div className="divide-y divide-border/30">
           {[
-            ["ORD-94821", "Choyxona Navat → Mirzo Ulug'bek", "12 min", "Akmal R."],
-            ["ORD-94822", "Evos Burger → Yunusabad", "18 min", "Sherzod K."],
-            ["ORD-94823", "Korzinka.uz → Chilonzor", "26 min", "Auto-assigning…"],
+            ["ORD-94821", "Choyxona Sample → Mirzo Ulugbek", "12 min", "Akmal R."],
+            ["ORD-94822", "Burger House → Yunusabad", "18 min", "Sherzod K."],
+            ["ORD-94823", "Bozor Market → Chilonzor", "26 min", "Auto-assigning…"],
             ["ORD-94824", "Apteka → Yashnobod", "9 min", "Doniyor S."],
           ].map(([id, route, eta, rider]) => (
             <div key={id} className="grid grid-cols-12 gap-3 px-4 py-3 text-sm">

@@ -12,9 +12,9 @@ export const Route = createFileRoute("/financials")({
       { name: "description", content: "Scenario sliders drive a live P&L, balance sheet and 12-month cash flow forecast." },
       { property: "og:title", content: "Financial Model — Qatnov" },
       { property: "og:description", content: "Interactive P&L, balance sheet and cash flow for Qatnov's fleet operations." },
-      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/financials" },
+      { property: "og:url", content: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/financials" },
     ],
-    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/financials" }],
+    links: [{ rel: "canonical", href: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/financials" }],
   }),
   component: Financials,
 });
