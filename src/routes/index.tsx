@@ -220,8 +220,8 @@ function Home() {
               <p className="mt-3 text-muted-foreground">Fleets, riders, merchant tech, payments, financing — the operating system for the last mile.</p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
-              <Link to="/platform" className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground glow-primary">Explore the platform</Link>
-              <Link to="/business-plan" className="inline-flex items-center gap-2 rounded-md border border-border/60 px-5 py-3 text-sm">Read the plan</Link>
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground glow-primary">Get in touch</Link>
+              <Link to="/platform" className="inline-flex items-center gap-2 rounded-md border border-border/60 px-5 py-3 text-sm">Explore the platform</Link>
             </div>
           </div>
         </div>
