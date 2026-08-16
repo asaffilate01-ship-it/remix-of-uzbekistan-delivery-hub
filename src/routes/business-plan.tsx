@@ -9,9 +9,9 @@ export const Route = createFileRoute("/business-plan")({
       { name: "description", content: "Full strategic plan: phased rollout, market opportunity, technology, risks and exit." },
       { property: "og:title", content: "Business Plan — Qatnov" },
       { property: "og:description", content: "Phased rollout, market, technology, risks and exit for Uzbekistan's logistics OS." },
-      { property: "og:url", content: "https://uzbek-delivery-flow.lovable.app/business-plan" },
+      { property: "og:url", content: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/business-plan" },
     ],
-    links: [{ rel: "canonical", href: "https://uzbek-delivery-flow.lovable.app/business-plan" }],
+    links: [{ rel: "canonical", href: "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app/business-plan" }],
   }),
   component: BusinessPlan,
 });

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "https://uzbek-delivery-flow.lovable.app";
+const BASE_URL = "https://project--b51ed574-d001-40f2-9887-80bde42c1971.lovable.app";
 
 const entries = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
