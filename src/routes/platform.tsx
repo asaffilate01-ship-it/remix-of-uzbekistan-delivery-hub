@@ -115,6 +115,13 @@ const categories = Object.keys(categoryFeatures);
 function Platform() {
   return (
     <div>
+      <div className="mx-auto max-w-7xl px-6 pt-6">
+        <div className="rounded-xl border border-gold/30 bg-gold/5 px-4 py-3 text-xs text-muted-foreground">
+          <span className="font-mono text-gold">PRODUCT PREVIEW · </span>
+          Screens below use illustrative sample data. Rider names, merchants, orders and
+          metrics are fictional and do not represent real customers or live operations.
+        </div>
+      </div>
       <Hero />
       <FeaturesGrid />
       <CategoryExplorer />
